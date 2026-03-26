@@ -1,17 +1,20 @@
 Please do not mess with the script. (.sql file) should be able to just run it on *mysql* and then be set up with XAMMP. Once thats all done you should be able to run it all fine.
 http://localhost/carsales_app/index.php. 
 
-Buyers should be able to insert and delete values. 
-When coding reference buyers create, delete, edit, every entity should follow a similar pattern to buyer (table) we won't flesh out all of the logic just yet, we just need to be able to insert all of the logic for now and then worry about doing the carry over later. Buyer is already done, if someone can finish up on customer/vehicle that would be amazing.
+Uhhh, I dunno. At this point just go in order since all of the logic has been undermined basically.
 
-If you don't know whats going where, reference the ER table in MySQL, this is very easy to do. 
+Pick and choose which entity to work on, make sure you aren't working on the same on, again, take the following steps before starting.
 
-Go to your database, select database -> reverse engineering -> next -> and it should show up.
+I don't know if he's going to use XAMMP, assuming not maybe it's important to test it on a different reciever (not its actual name) but alpache may be different from whatever Zhengs going to be using.
 
-From there using the ER diagram as provided we should go in the following order since we'll connect every together eventually. Buyer, Customer, Vehicle, Employment history, sale, basically do something that isn't in the middle of everything, as an example we don't want to do purchase and repair just yet since some of the values carry over (i.e. purchase_id) so realistically theres no need to create those values we should just reference it through php.
+If someone wants to test WAAMP (I think its called) please do but if using XAMPP complete the following steps.
 
-If you want to do a small one (seller or salesperson) just to get the feel for it, go for it, just follow the logic under the buyer folder and make sure to reference it properly (../ and 'folder'/) make sure the hrefs are correct as well.
+Firstly, create the actual diagram on MySQL, to do this compile/execute the SQL script and then in the header click Database -> Reverse engineer -> next -> next and you should have the full ER diagram as opposed to the actual table code.
 
-All I'll say for now, wouldn't reccomend trying to link it all together just yet. Make the ones that we need and then figure out if we even need all of the entities. 
+Given this ER diagram I'd reccomend following similar logic to employee, don't worry about the nuances (i.e. data type conversion, drop boxes, box selection, etc) those can be compelted later. You should be able to create all 4 files (create, delete, edit, base) using employee. CTRL F (employee in this case) and replace everything with the name of the entity you'll be working on and just go from there.
 
-Cheers. 
+Before starting make sure that someone isn't already working on said entity that you are working on so just shoot a message to the GC. 
+
+If we want more complicated logic we can add once complete, I suggest making the website look a little nicer than what it is, I added the bare minimum amount of CSS just to get started but the header and index (.php) can really use some work.
+
+Good luck!
