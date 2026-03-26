@@ -14,4 +14,4 @@ If you want to do a small one (seller or salesperson) just to get the feel for i
 
 All I'll say for now, wouldn't reccomend trying to link it all together just yet. Make the ones that we need and then figure out if we even need all of the entities. 
 
-Cheers.
+Cheers. 
