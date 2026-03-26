@@ -10,9 +10,12 @@
     <li><a href="customer/customers.php">View all customers</a></li>
     <li><a href="customer/customer_create.php">Insert new customer</a></li>
     <li><a href="customer/customer_delete.php">Delete new customer</a></li>
-    <li><a href="customer/employees.php">View all employees</a></li>
-    <li><a href="customer/employee_create.php">Insert new employee</a></li>
-    <li><a href="customer/employee_delete.php">Delete new employee</a></li>
+    <li><a href="employee/employees.php">View all employees</a></li>
+    <li><a href="employee/employee_create.php">Insert new employee</a></li>
+    <li><a href="employee/employee_delete.php">Delete new employee</a></li>
+    <li><a href="purchase/purchases.php">View all purchases</a></li>
+    <li><a href="purchase/purchase_create.php">Insert new purchase</a></li>
+    <li><a href="purchase/purchase_delete.php">Delete purchase</a></li>
 </ul>
 
 
