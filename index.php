@@ -10,6 +10,9 @@
     <li><a href="customer/customers.php">View all customers</a></li>
     <li><a href="customer/customer_create.php">Insert new customer</a></li>
     <li><a href="customer/customer_delete.php">Delete new customer</a></li>
+    <li><a href="customer/employees.php">View all employees</a></li>
+    <li><a href="customer/employee_create.php">Insert new employee</a></li>
+    <li><a href="customer/employee_delete.php">Delete new employee</a></li>
 </ul>
 
 
