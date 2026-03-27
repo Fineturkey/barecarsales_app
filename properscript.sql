@@ -152,3 +152,49 @@ CREATE TABLE payment (
         FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
         ON DELETE CASCADE
 );
+
+
+-- =====================================================
+-- 9) WARRANTY
+-- =====================================================
+
+CREATE TABLE warranty (
+    warranty_id INT AUTO_INCREMENT PRIMARY KEY,
+
+    sale_id INT NOT NULL,
+    vehicle_id INT NOT NULL,
+    customer_id INT NOT NULL,
+    employee_id INT NOT NULL,
+
+    warranty_name VARCHAR(100) NOT NULL,
+    warranty_sale_date DATE NOT NULL,
+    start_date DATE NOT NULL,
+    length_months INT NOT NULL,
+
+    cost DECIMAL(10,2) NOT NULL,
+    deductible DECIMAL(10,2) NOT NULL,
+    items_covered TEXT,
+
+    total_cost DECIMAL(10,2) NOT NULL,
+    monthly_cost DECIMAL(10,2) DEFAULT 0.00,
+    warranty_commission DECIMAL(10,2) DEFAULT 0.00,
+    
+
+    CONSTRAINT fk_warranty_sale
+        FOREIGN KEY (sale_id) REFERENCES sale(sale_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_warranty_vehicle
+        FOREIGN KEY (vehicle_id) REFERENCES vehicle(vehicle_id)
+        ON DELETE RESTRICT,
+
+    CONSTRAINT fk_warranty_customer
+        FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
+        ON DELETE RESTRICT,
+
+    CONSTRAINT fk_warranty_employee
+        FOREIGN KEY (employee_id) REFERENCES employee(employee_id)
+        ON DELETE RESTRICT
+);
+
+
