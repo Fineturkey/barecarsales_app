@@ -13,5 +13,7 @@ $bank_account = '';
 $is_late = 0;
 $days_late = 0;
 
-
+if($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $sale_id = trim($_POST['sale_id'] ?? '');
+}
 ?>
