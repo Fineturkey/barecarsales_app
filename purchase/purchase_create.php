@@ -2,7 +2,6 @@
 include '../db.php';
 
 $errors = [];
-$purchase_id = '';
 $vehicle_id = '';
 $buyer_employee_id = '';
 $seller_name = '';
@@ -12,7 +11,6 @@ $is_auction = '';
 $price_paid = ''; 
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $purchase_id = trim($_POST['purchase_id'] ?? '');
     $vehicle_id = trim($_POST['vehicle_id'] ?? '');
     $buyer_employee_id = trim($_POST['buyer_employee_id'] ?? '');
     $seller_name = trim($_POST['seller_name'] ?? '');
@@ -20,10 +18,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $location = trim($_POST['location'] ?? '');
     $is_auction = trim($_POST['is_auction'] ?? '');
     $price_paid = trim($_POST['price_paid'] ?? '');
-
-    if ($purchase_id === '') {
-        $errors[] = "purchase_id is required.";
-    }
 
     if ($vehicle_id === '') {
         $errors[] = "Vewhicle ID is required";
@@ -53,7 +47,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($errors)) {
         $stmt = $conn->prepare("
             INSERT INTO purchase (
-                purchase_id,
                 vehicle_id,
                 buyer_employee_id,
                 seller_name,
@@ -61,15 +54,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 location,
                 is_auction,
                 price_paid
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?)
         ");
 
-        $late_payment_count_int = (int)$late_payment_count;
-        $avg_days_late_float = (float)$avg_days_late;
-
         $stmt->bind_param(
-            "iiisssid",
-            $purchase_id,
+            "iisssid",
             $vehicle_id,
             $buyer_employee_id,
             $seller_name,
@@ -107,11 +96,11 @@ include '../header.php';
     <label>Buyer employee ID</label>
     <input type="text" name="buyer_employee_id" value="<?= htmlspecialchars($buyer_employee_id) ?>">
 
-    <label>Selelrs name</label>
+    <label>Sellers name</label>
     <input type="text" name="seller_name" value="<?= htmlspecialchars($seller_name) ?>">
 
-    <label>Purchase dDate</label>
-    <input type="text" name="purchase_date" value="<?= htmlspecialchars($purchase_date) ?>">
+    <label>Purchase Date</label>
+    <input type="date" name="purchase_date" value="<?= htmlspecialchars($purchase_date) ?>" required>
 
     <label>Location</label>
     <input type="text" name="location" value="<?= htmlspecialchars($location) ?>">
