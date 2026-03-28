@@ -17,6 +17,8 @@
             <a href="/barecarsales_app/customer/customer_create.php">Add Customers</a>
             <a href="/barecarsales_app/employee/employees.php">Manage Employees</a>
             <a href="/barecarsales_app/employee/employee_create.php">Add Employees</a>
+            <a href="/barecarsales_app/employment_history/employment_historys.php">Manage Customer Employment</a>
+            <a href="/barecarsales_app/employment_history/employment_history_create.php">Add Customer Employment</a>
             <a href="/barecarsales_app/purchase/purchases.php">Manage Purchase</a>
             <a href="/barecarsales_app/purchase/purchase_create.php">Add Purchase</a>
 

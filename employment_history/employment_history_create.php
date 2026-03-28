@@ -86,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         );
 
         if ($stmt->execute()) {
-            header("Location: employmenthistory.php?msg=created");
+            header("Location: employment_historys.php?msg=created");
             exit;
         } else {
             $errors[] = "Insert failed: " . $stmt->error;
@@ -142,7 +142,7 @@ include '../header.php';
     </label>
 
     <button type="submit">Save Employment History</button>
-    <a class="btn btn-secondary" href="employmenthistory.php">Cancel</a>
+    <a class="btn btn-secondary" href="employment_historys.php">Cancel</a>
 </form>
 
 <?php
