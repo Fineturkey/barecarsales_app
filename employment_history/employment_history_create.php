@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $errors[] = "Please select a valid customer.";
     }
     if ($employer_name === '') {
-        $errors[] = "Employer name is required.";
+        $errors[] = "Company name is required.";
     }
     if ($job_title === '') {
         $errors[] = "Job title is required.";
@@ -122,7 +122,7 @@ include '../header.php';
     <input type="text" name="job_title" value="<?= htmlspecialchars($job_title) ?>" required>
 
     <label>Supervisor Name</label>
-    <input type="text" name="supervisor_name" value="<?= htmlspecialchars($supervisor_name) ?>"
+    <input type="text" name="supervisor_name" value="<?= htmlspecialchars($supervisor_name) ?>">
 
     <label>Company Phone</label>
     <input type="text" name="supervisor_phone" value="<?= htmlspecialchars($supervisor_phone) ?>" required>

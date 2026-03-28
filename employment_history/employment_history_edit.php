@@ -4,12 +4,11 @@ include '../db.php';
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $errors = [];
 
-$stmt = $conn->prepare("
-    SELECT employment_id, customer_id, employer_name, job_title, 
-           supervisor_name, supervisor_phone, employer_address, 
-           start_date, end_date, is_current 
-    FROM employment_history 
-    WHERE employment_id = ?
+$stmt = $conn->prepare("SELECT employment_id, customer_id, employer_name, job_title, 
+                               supervisor_name, supervisor_phone, employer_address, 
+                               start_date, end_date, is_current 
+                        FROM employment_history 
+                        WHERE employment_id = ?
 ");
 $stmt->bind_param("i", $id);
 $stmt->execute();
@@ -144,7 +143,7 @@ include '../header.php';
     <input type="text" name="job_title" value="<?= htmlspecialchars($job_title) ?>" required>
 
     <label>Supervisor Name</label>
-    <input type="text" name="supervisor_name" value="<?= htmlspecialchars($supervisor_name) ?">
+    <input type="text" name="supervisor_name" value="<?= htmlspecialchars($supervisor_name) ?>">
 
     <label>Company Phone</label>
     <input type="text" name="supervisor_phone" value="<?= htmlspecialchars($supervisor_phone) ?>" required>

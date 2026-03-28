@@ -3,13 +3,12 @@ include '../db.php';
 include '../header.php';
 
 // Fetch employment history entries
-$result = $conn->query("
-    SELECT eh.employment_id, eh.customer_id, c.first_name, c.last_name,
-           eh.employer_name, eh.job_title, eh.supervisor_name, eh.supervisor_phone, eh.employer_address,
-           eh.start_date, eh.end_date, eh.is_current
-    FROM employment_history eh
-    JOIN customer c ON eh.customer_id = c.customer_id
-    ORDER BY eh.employment_id ASC
+$result = $conn->query("SELECT eh.employment_id, eh.customer_id, c.first_name, c.last_name,
+                               eh.employer_name, eh.job_title, eh.supervisor_name, eh.supervisor_phone, eh.employer_address,
+                               eh.start_date, eh.end_date, eh.is_current
+                        FROM employment_history eh
+                        JOIN customer c ON eh.customer_id = c.customer_id
+                        ORDER BY eh.employment_id ASC
 ");
 ?>
 
