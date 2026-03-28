@@ -26,7 +26,7 @@ $result = $conn->query("
 <h2>Customer Table</h2>
 
 <a class="btn" href="customer_create.php">Add New Customer</a>
-<a class="btn" href="/barecarsales_app/employment_history/employment_historys.php">Manage Customer Employment</a>
+<a class="btn" href="/barecarsales_app/employment_history/employment_historys.php">Manage Customer Employment History</a>
 
 <?php if (isset($_GET['msg'])): ?>
     <?php if ($_GET['msg'] === 'created'): ?>
