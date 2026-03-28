@@ -116,7 +116,7 @@ include '../header.php';
         <?php endforeach; ?>
     </select>
 
-    <label>Employer Name</label>
+    <label>Company Name</label>
     <input type="text" name="employer_name" value="<?= htmlspecialchars($employer_name) ?>" required>
 
     <label>Job Title</label>
@@ -125,10 +125,10 @@ include '../header.php';
     <label>Supervisor Name</label>
     <input type="text" name="supervisor_name" value="<?= htmlspecialchars($supervisor_name) ?>" required>
 
-    <label>Supervisort Phone</label>
+    <label>Company Phone</label>
     <input type="text" name="supervisor_phone" value="<?= htmlspecialchars($supervisor_phone) ?>" required>
 
-    <label>Employer Address</label>
+    <label>Company Address</label>
     <input type="text" name="employer_address" value="<?= htmlspecialchars($employer_address) ?>">
 
     <label>Start Date</label>
