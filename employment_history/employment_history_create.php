@@ -100,6 +100,8 @@ include '../header.php';
 
 <h2>Add Employment History</h2>
 
+<a class="btn" href="employment_historys.php">BACK TO Employment History</a>
+
 <?php foreach ($errors as $error): ?>
     <div class="message error"><?= htmlspecialchars($error) ?></div>
 <?php endforeach; ?>
