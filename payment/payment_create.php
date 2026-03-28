@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $amount_float = (float)$amount;
 
         $stmt->bind_param(
-            "iidsss",
+            "iidssss",
             $customer_id_int,
             $sale_id_int,
             $amount_float,
