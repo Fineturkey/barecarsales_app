@@ -5,7 +5,7 @@ include '../header.php';
 // Fetch all payments
 $result = $conn->query("
     SELECT p.payment_id, p.customer_id, c.first_name, c.last_name,
-           p.sale_id, s.sale_price, p.amount, p.payment_date, p.due_date, p.paid_date
+           p.sale_id, s.sale_price, p.amount, p.payment_date, p.due_date, p.paid_date, p.days_late
     FROM payment p
     JOIN customer c ON p.customer_id = c.customer_id
     JOIN sale s ON p.sale_id = s.sale_id
@@ -38,6 +38,7 @@ $result = $conn->query("
         <th>Payment Date</th>
         <th>Due Date</th>
         <th>Paid Date</th>
+        <th>Days Late</th>
         <th>Actions</th>
     </tr>
 
@@ -50,6 +51,7 @@ $result = $conn->query("
             <td><?= htmlspecialchars($row['payment_date']) ?></td>
             <td><?= htmlspecialchars($row['due_date']) ?></td>
             <td><?= htmlspecialchars($row['paid_date'] ?? 'Pending') ?></td>
+            <td><?= $row['days_late'] ?> days</td>
             <td>
                 <a class="btn" href="payment_edit.php?id=<?= $row['payment_id'] ?>">Edit</a>
                 <a class="btn btn-danger" href="payment_delete.php?id=<?= $row['payment_id'] ?>" onclick="return confirm('Are you sure you want to delete this payment?');">Delete</a>

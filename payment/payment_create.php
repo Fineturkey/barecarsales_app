@@ -48,6 +48,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $due_date = trim($_POST['due_date'] ?? '');
     $paid_date = trim($_POST['paid_date'] ?? '');
     $bank_account = trim($_POST['bank_account'] ?? '');
+    $is_late = isset($_POST['is_late']) ? 1 : 0;
+    $days_late = trim($_POST['days_late'] ?? '0');
 
     // Validation
     if ($customer_id === '' || !ctype_digit($customer_id)) {
@@ -75,8 +77,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 payment_date,
                 due_date,
                 paid_date,
-                bank_account
-            ) VALUES (?, ?, ?, ?, ?, ?, ?)
+                bank_account,
+                is_late,
+                days_late
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
 
         $customer_id_int = (int)$customer_id;
@@ -84,14 +88,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $amount_float = (float)$amount;
 
         $stmt->bind_param(
-            "iidssss",
+            "iidssssii",
             $customer_id_int,
             $sale_id_int,
             $amount_float,
             $payment_date,
             $due_date,
             $paid_date,
-            $bank_account
+            $bank_account,
+            $is_late,
+            $days_late
         );
 
         if ($stmt->execute()) {
@@ -139,16 +145,63 @@ include '../header.php';
     <input type="number" step="0.01" name="amount" value="<?= htmlspecialchars($amount) ?>" required>
 
     <label>Payment Date</label>
-    <input type="date" name="payment_date" value="<?= htmlspecialchars($payment_date) ?>" required>
+    <input type="date" id="payment_date" name="payment_date" value="<?= htmlspecialchars($payment_date) ?>" required>
 
     <label>Due Date</label>
-    <input type="date" name="due_date" value="<?= htmlspecialchars($due_date) ?>" required>
+    <input type="date" id="due_date" name="due_date" value="<?= htmlspecialchars($due_date) ?>" required>
 
     <label>Paid Date</label>
-    <input type="date" name="paid_date" value="<?= htmlspecialchars($paid_date) ?>">
+    <input type="date" id="paid_date" name="paid_date" value="<?= htmlspecialchars($paid_date) ?>">
 
     <label>Bank Account</label>
     <input type="text" name="bank_account" value="<?= htmlspecialchars($bank_account) ?>">
+
+    <label>
+        Is Late: <span id="is_late_display">No</span>
+        <input type="hidden" id="is_late" name="is_late" value="0">
+    </label>
+
+    <label>
+        || Days Late: <span id="days_late_display">0</span>
+        <input type="hidden" id="days_late" name="days_late" value="0">
+    </label>
+
+    <script>
+        const dueDateInput = document.getElementById('due_date');
+        const paidDateInput = document.getElementById('paid_date');
+        const daysLateInput = document.getElementById('days_late');
+        const isLateInput = document.getElementById('is_late');
+        const daysLateDisplay = document.getElementById('days_late_display');
+        const isLateDisplay = document.getElementById('is_late_display');
+
+        function calculateDaysLate() {
+            const dueDate = new Date(dueDateInput.value);
+            const paidDate = new Date(paidDateInput.value);
+
+            if (!dueDateInput.value || !paidDateInput.value) {
+                return;
+            }
+
+            // Calculate difference in days
+            const timeDiff = paidDate - dueDate;
+            const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+            if (daysDiff > 0) {
+                daysLateInput.value = daysDiff;
+                daysLateDisplay.textContent = daysDiff;
+                isLateInput.value = 1;
+                isLateDisplay.textContent = 'Yes';
+            } else {
+                daysLateInput.value = 0;
+                daysLateDisplay.textContent = '0';
+                isLateInput.value = 0;
+                isLateDisplay.textContent = 'No';
+            }
+        }
+
+        dueDateInput.addEventListener('change', calculateDaysLate);
+        paidDateInput.addEventListener('change', calculateDaysLate);
+    </script>
 
     <button type="submit">Save Payment</button>
     <a class="btn btn-secondary" href="payments.php">Cancel</a>
