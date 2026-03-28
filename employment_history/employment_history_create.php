@@ -34,7 +34,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $end_date = trim($_POST['end_date'] ?? '');
     $is_current = isset($_POST['is_current']) ? 1 : 0;
 
-    // Validation
     if ($customer_id === '' || !ctype_digit($customer_id)) {
         $errors[] = "Please select a valid customer.";
     }
@@ -44,11 +43,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($job_title === '') {
         $errors[] = "Job title is required.";
     }
-    if ($supervisor_name === '') {
-        $errors[] = "Supervisor name is required.";
-    }
     if ($supervisor_phone === '') {
-        $errors[] = "Supervisor phone is required.";
+        $errors[] = "Company phone is required.";
+    }
+    if ($employer_address === '') {
+        $errors[] = "Company address is required.";
     }
     if ($start_date === '') {
         $errors[] = "Start date is required.";
@@ -123,13 +122,13 @@ include '../header.php';
     <input type="text" name="job_title" value="<?= htmlspecialchars($job_title) ?>" required>
 
     <label>Supervisor Name</label>
-    <input type="text" name="supervisor_name" value="<?= htmlspecialchars($supervisor_name) ?>" required>
+    <input type="text" name="supervisor_name" value="<?= htmlspecialchars($supervisor_name) ?>"
 
     <label>Company Phone</label>
     <input type="text" name="supervisor_phone" value="<?= htmlspecialchars($supervisor_phone) ?>" required>
 
     <label>Company Address</label>
-    <input type="text" name="employer_address" value="<?= htmlspecialchars($employer_address) ?>">
+    <input type="text" name="employer_address" value="<?= htmlspecialchars($employer_address) ?>" required>
 
     <label>Start Date</label>
     <input type="date" name="start_date" value="<?= htmlspecialchars($start_date) ?>" required>
