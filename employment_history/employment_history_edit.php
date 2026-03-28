@@ -133,7 +133,7 @@ include '../header.php';
         <option value="">-- Select Customer --</option>
         <?php foreach ($customers as $cust): ?>
             <option value="<?= $cust['customer_id'] ?>" <?= $cust['customer_id'] == $customer_id ? 'selected' : '' ?>>
-                <?= htmlspecialchars($cust['last_name'] . ', ' . $cust['first_name']) ?>
+                <?= htmlspecialchars($cust['customer_id'] . ' - ' . $cust['last_name'] . ', ' . $cust['first_name']) ?>
             </option>
         <?php endforeach; ?>
     </select>

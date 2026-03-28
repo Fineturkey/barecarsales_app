@@ -32,11 +32,11 @@ $result = $conn->query("
 <table>
     <tr>
         <th>Customer</th>
-        <th>Employer Name</th>
+        <th>Company Name</th>
         <th>Job Title</th>
         <th>Supervisor Name</th>
-        <th>Supervisor Phone</th>
-        <th>Employer Address</th>
+        <th>Company Phone</th>
+        <th>Company Address</th>
         <th>Start Date</th>
         <th>End Date</th>
         <th>Current Job</th>
@@ -45,14 +45,14 @@ $result = $conn->query("
 
     <?php while ($row = $result->fetch_assoc()): ?>
         <tr>
-            <td><?= htmlspecialchars($row['last_name'] . ', ' . $row['first_name']) ?></td>
+            <td><?= htmlspecialchars($row['customer_id'] . ' - ' . $row['last_name'] . ', ' . $row['first_name']) ?></td>
             <td><?= htmlspecialchars($row['employer_name']) ?></td>
             <td><?= htmlspecialchars($row['job_title']) ?></td>
             <td><?= htmlspecialchars($row['supervisor_name']) ?></td>
             <td><?= htmlspecialchars($row['supervisor_phone']) ?></td>
             <td><?= htmlspecialchars($row['employer_address']) ?></td>
             <td><?= htmlspecialchars($row['start_date']) ?></td>
-            <td><?= htmlspecialchars($row['end_date']) ?></td>
+            <td><?= $row['is_current'] ? 'N/A' : htmlspecialchars($row['end_date']) ?></td>
             <td><?= $row['is_current'] ? 'Yes' : 'No' ?></td>
             <td>
                 <a class="btn" href="employment_history_edit.php?id=<?= $row['employment_id'] ?>">Edit</a>
