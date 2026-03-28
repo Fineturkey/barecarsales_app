@@ -8,7 +8,7 @@ if ($id <= 0) {
     exit;
 }
 
-$stmt = $conn->prepare("DELETE FROM repair WHERE purchase_id = ?");
+$stmt = $conn->prepare("DELETE FROM purchase WHERE purchase_id = ?");
 $stmt->bind_param("i", $id);
 
 if ($stmt->execute()) {
