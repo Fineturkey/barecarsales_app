@@ -16,6 +16,9 @@
     <li><a href="purchase/purchases.php">View all purchases</a></li>
     <li><a href="purchase/purchase_create.php">Insert new purchase</a></li>
     <li><a href="purchase/purchase_delete.php">Delete purchase</a></li>
+    <li><a href="vehicle/vehicle_create.php">Create Vehicle</a></li>
+    <li><a href="vehicle/vehicles.php">Vehicle</a></li>
+    <li><a href="vehicle/vehicle_delete.php">Delete Vehicle</a></li>
 </ul>
 
 
