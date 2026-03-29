@@ -187,7 +187,7 @@ include '../header.php';
 <form method="post">
     <label>Vehicle</label>
     <select name="vehicle_id" required>
-        <option value="">Select vehicle</option>
+        <option value="">-- Select Vehicle --</option>
         <?php foreach ($vehicles as $v): ?>
             <?php
             $vid = (string)$v['vehicle_id'];
@@ -199,7 +199,7 @@ include '../header.php';
 
     <label>Customer</label>
     <select name="customer_id" required>
-        <option value="">Select customer</option>
+        <option value="">-- Select Customer --</option>
         <?php foreach ($customers as $c): ?>
             <?php
             $cid = (string)$c['customer_id'];
@@ -211,7 +211,7 @@ include '../header.php';
 
     <label>Salesperson</label>
     <select name="salesperson_id" required>
-        <option value="">Select salesperson</option>
+        <option value="">-- Select Salesperson --</option>
         <?php foreach ($salespeople as $sp): ?>
             <?php
             $sid = (string)$sp['employee_id'];
