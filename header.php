@@ -10,7 +10,7 @@
 
 <body>
     <div class="container">
-        <h1>JonesAuto Database Interface</h1>
+        <h1>Jones Auto Database Interface</h1>
         <nav class="navbar">
             <ul class="menu">
                 <li><a href="/barecarsales_app/index.php">Home</a></li>
@@ -55,8 +55,8 @@
                     <a href="#">Payments</a>
                     <ul class="submenu">
                         <li><a href="/barecarsales_app/payment/payments.php">Manage Payments</a></li>
-                        <li><a href="/barecarsales_app/payment/payment_create.php">Add Sale</a></li>
-                        <li><a href="/barecarsales_app/payment/payment_delete.php">Add Sale</a></li>
+                        <li><a href="/barecarsales_app/payment/payment_create.php">Add Payment</a></li>
+                        <li><a href="/barecarsales_app/payment/payment_delete.php">Delete Payment</a></li>
                     </ul>
                 </li>
 
@@ -66,10 +66,16 @@
                         <li><a href="/barecarsales_app/purchase/purchases.php">Manage Purchases</a></li>
                         <li><a href="/barecarsales_app/purchase/purchase_create.php">Add Purchase</a></li>
                         <li><a href="/barecarsales_app/purchase/purchase_delete.php">Delete Purchase</a></li>
-
-
                     </ul>
                 </li>
+                <li class="dropdown">
+                    <a href="#">Vehicle</a>
+                    <ul class="submenu">
+                        <li><a href="/barecarsales_app/vehicle/vehicle.php">Manage Vehicle</a></li>
+                        <li><a href="/barecarsales_app/vehicle/vehicle_create.php">Add Vehicle</a></li>
+                        <li><a href="/barecarsales_app/vehicle/vehicle_delete.php">Delete Vehicle</a></li>
+                    </ul>
+                </li>f
             </ul>
-            </nav>
-            <hr>
+        </nav>
+        <h
