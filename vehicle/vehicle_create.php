@@ -73,44 +73,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
         );
 
-        $stmt->bind_param(
-            'sssisssdsss',
-            $vin,
-            $make,
-            $model,
-            $year_int,
-            $color,
-            $miles_int,
-            $vehicle_condition,
-            $book_price_float,
-            $style,
-            $interior_color,
-            $current_status
-        );
+        if ($stmt === false) {
+            $errors[] = 'Prepare failed: ' . $conn->error;
+        } else {
+            $stmt->bind_param(
+                'sssisssdsss',
+                $vin,
+                $make,
+                $model,
+                $year_int,
+                $color,
+                $miles_int,
+                $vehicle_condition,
+                $book_price_float,
+                $style,
+                $interior_color,
+                $current_status
+            );
 
-        if ($stmt->execute()) {
+            if ($stmt->execute()) {
+                $stmt->close();
+                header('Location: vehicles.php?msg=created');
+                exit;
+            }
+
+            $errors[] = 'Insert failed: ' . $stmt->error;
             $stmt->close();
-            header('Location: vehicles.php?msg=created');
-            exit;
         }
-
-        $errors[] = 'Insert failed: ' . $stmt->error;
-        $stmt->close();
     }
 }
 
 include '../header.php';
 ?>
 
-<h2>ADD Vehicle</h2>
+<h2>Add Vehicle</h2>
 
 <?php foreach ($errors as $error): ?>
-    <div class="message error"><?php htmlspecialchars($error); ?></div>
+    <div class="message error"><?= htmlspecialchars($error) ?></div>
 <?php endforeach; ?>
 
 <form method="post">
     <label>VIN</label>
-    <input type="text" name="vin" value="<?= htmlspecialchars($vin) ?>" required>
+    <input type="text" name="vin" value="<?= htmlspecialchars($vin) ?>">
 
     <label>Make</label>
     <input type="text" id="make" name="make" value="<?= htmlspecialchars($make) ?>" required>
@@ -119,24 +123,38 @@ include '../header.php';
     <input type="text" id="model" name="model" value="<?= htmlspecialchars($model) ?>" required>
 
     <label>Year</label>
-    <input type="number" id="year" name="year" value="<?= htmlspecialchars($year) ?>" required>
+    <input type="number" id="year" name="year" value="<?= htmlspecialchars($year) ?>" min="1800" max="2100">
 
     <label>Color</label>
-    <input type="text" id="color" name="color" value="<?= htmlspecialchars($color) ?>" required>
+    <input type="text" id="color" name="color" value="<?= htmlspecialchars($color) ?>">
 
     <label>Miles</label>
-    <input type="number" id="miles" name="miles" value="<?= htmlspecialchars($miles) ?>" required>
+    <input type="number" id="miles" name="miles" value="<?= htmlspecialchars($miles) ?>" min="0">
 
     <label>Condition</label>
-    <input type="text" id="vehicle_condition" name="vehicle_condition" value="<?= htmlspecialchars($vehicle_condition) ?>" required>
+    <input type="text" id="vehicle_condition" name="vehicle_condition" value="<?= htmlspecialchars($vehicle_condition) ?>">
 
     <label>Book Price</label>
-    <input type="number" step="0.01" id="book_price" name="book_price" value="<?= htmlspecialchars($book_price) ?>" required>
+    <input type="number" step="0.01" id="book_price" name="book_price" value="<?= htmlspecialchars($book_price) ?>">
 
     <label>Style</label>
-    <input type="text" id="style" name="style" value="<?= htmlspecialchars($style) ?>" required>
+    <input type="text" id="style" name="style" value="<?= htmlspecialchars($style) ?>">
 
     <label>Interior Color</label>
-    <input type="text" id="interior_color" name="interior_color" value="<?= htmlspecialchars($interior_color) ?>" required>
+    <input type="text" id="interior_color" name="interior_color" value="<?= htmlspecialchars($interior_color) ?>">
+
+    <label>Current Status</label>
+    <select name="current_status">
+        <option value="in_stock" <?= $current_status === 'in_stock' ? 'selected' : '' ?>>In Stock</option>
+        <option value="sold" <?= $current_status === 'sold' ? 'selected' : '' ?>>Sold</option>
+        <option value="repairing" <?= $current_status === 'repairing' ? 'selected' : '' ?>>Repairing</option>
+    </select>
 
     <button type="submit">Add Vehicle</button>
+    <a class="btn btn-secondary" href="vehicles.php">Cancel</a>
+</form>
+
+<?php
+include '../footer.php';
+$conn->close();
+?>
