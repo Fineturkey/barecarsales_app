@@ -11,9 +11,25 @@
 <body>
     <div class="container">
         <h1>JonesAuto Database Interface</h1>
+<<<<<<< HEAD
         <nav class="navbar">
             <ul class="menu">
                 <li><a href="/barecarsales_app/index.php">Home</a></li>
+=======
+        <nav>
+            <a href="/barecarsales_app/index.php">Home</a>
+            <a href="/barecarsales_app/repair/repairs.php">Manage Repairs</a>
+            <a href="/barecarsales_app/repair/repair_create.php">Add repairs</a>
+            <a href="/barecarsales_app/customer/customers.php">Manage Customers</a>
+            <a href="/barecarsales_app/customer/customer_create.php">Add Customers</a>
+            <a href="/barecarsales_app/employee/employees.php">Manage Employees</a>
+            <a href="/barecarsales_app/employee/employee_create.php">Add Employees</a>
+            <a href="/barecarsales_app/sale/sales.php">Manage Sales</a>
+            <a href="/barecarsales_app/sale/sale_create.php">Add Sales</a>
+            <a href="/barecarsales_app/payment/payments.php">Manage Payments</a>
+            <a href="/barecarsales_app/purchase/purchases.php">Manage Purchase</a>
+            <a href="/barecarsales_app/purchase/purchase_create.php">Add Purchase</a>
+>>>>>>> 5d0750c17a38b42e417250fb23ccce53708bcd35
 
                 <li class="dropdown">
                     <a href="#">Repairs</a>

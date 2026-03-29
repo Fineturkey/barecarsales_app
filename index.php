@@ -4,6 +4,9 @@
 <p>Use this interface to manage the Buyer table.</p>
 
 <ul>
+    <li><a href="sale/sales.php">View all sales</a></li>
+    <li><a href="sale/sale_create.php">Insert new sale</a></li>
+    <li><a href="sale/sale_delete.php">Delete sale</a></li>
     <li><a href="repair/repairs.php">View all repair</a></li>
     <li><a href="repair/repair_create.php">Insert new repair</a></li>
     <li><a href="repair/repair_delete.php">Delete repair</a></li>
