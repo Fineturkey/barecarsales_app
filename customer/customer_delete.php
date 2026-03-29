@@ -8,7 +8,7 @@ if ($id <= 0) {
     exit;
 }
 
-$stmt = $conn->prepare("DELETE FROM repair WHERE customer_id = ?");
+$stmt = $conn->prepare("DELETE FROM customer WHERE customer_id = ?");
 $stmt->bind_param("i", $id);
 
 if ($stmt->execute()) {
@@ -20,7 +20,7 @@ if ($stmt->execute()) {
         exit;
     }
 } else {
-    header("Location: customer.php?msg=delete_blocked");
+    header("Location: customers.php?msg=delete_blocked");
     exit;
 }
 

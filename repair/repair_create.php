@@ -34,7 +34,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     if (empty($errors)) {
-        $stmt = $conn->prepare("INSERT INTO repair (purchase_id, problem_description, est_repair_cost, actual_cost) VALUES (?, ?, ?, ?)");
+        $stmt = $conn->prepare("
+            INSERT INTO repair (purchase_id, problem_description, est_repair_cost, actual_cost)
+            VALUES (?, ?, ?, ?)
+        ");
+
         $purchase_id_int = (int)$purchase_id;
         $est_repair_cost_float = (float)$est_repair_cost;
         $actual_cost_float = (float)$actual_cost;

@@ -1,5 +1,5 @@
 Please do not mess with the script. (.sql file) should be able to just run it on *mysql* and then be set up with XAMMP. Once thats all done you should be able to run it all fine.
-http://localhost/carsales_app/index.php. 
+http://localhost/barecarsales_app/index.php
 
 Uhhh, I dunno. At this point just go in order since all of the logic has been undermined basically.
 

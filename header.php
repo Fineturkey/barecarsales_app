@@ -20,6 +20,8 @@
             <a href="/barecarsales_app/sale/sales.php">Manage Sales</a>
             <a href="/barecarsales_app/sale/sale_create.php">Add Sales</a>
             <a href="/barecarsales_app/payment/payments.php">Manage Payments</a>
+            <a href="/barecarsales_app/purchase/purchases.php">Manage Purchase</a>
+            <a href="/barecarsales_app/purchase/purchase_create.php">Add Purchase</a>
 
         </nav>
         <hr>
