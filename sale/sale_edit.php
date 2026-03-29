@@ -131,6 +131,50 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
+$cur_vehicle_id = (int)$vehicle_id;
+$vehicles_stmt = $conn->prepare("
+    SELECT vehicle_id, make, model, year
+    FROM vehicle
+    WHERE current_status = 'in_stock' OR vehicle_id = ?
+    ORDER BY make, model, year
+");
+$vehicles_stmt->bind_param("i", $cur_vehicle_id);
+$vehicles_stmt->execute();
+$vehicles_res = $vehicles_stmt->get_result();
+$vehicles = [];
+while ($row = $vehicles_res->fetch_assoc()) {
+    $vehicles[] = $row;
+}
+$vehicles_stmt->close();
+
+$customers_result = $conn->query("
+    SELECT customer_id, first_name, last_name
+    FROM customer
+    ORDER BY last_name, first_name
+");
+$customers = [];
+if ($customers_result) {
+    while ($row = $customers_result->fetch_assoc()) {
+        $customers[] = $row;
+    }
+}
+
+$cur_salesperson_id = (int)$salesperson_id;
+$salespeople_stmt = $conn->prepare("
+    SELECT employee_id, first_name, last_name
+    FROM employee
+    WHERE role IN ('salesperson', 'both') OR employee_id = ?
+    ORDER BY last_name, first_name
+");
+$salespeople_stmt->bind_param("i", $cur_salesperson_id);
+$salespeople_stmt->execute();
+$salespeople_res = $salespeople_stmt->get_result();
+$salespeople = [];
+while ($row = $salespeople_res->fetch_assoc()) {
+    $salespeople[] = $row;
+}
+$salespeople_stmt->close();
+
 include '../header.php';
 ?>
 
@@ -141,14 +185,41 @@ include '../header.php';
 <?php endforeach; ?>
 
 <form method="post">
-    <label>Vehicle ID</label>
-    <input type="number" name="vehicle_id" value="<?= htmlspecialchars($vehicle_id) ?>" required>
+    <label>Vehicle</label>
+    <select name="vehicle_id" required>
+        <option value="">Select vehicle</option>
+        <?php foreach ($vehicles as $v): ?>
+            <?php
+            $vid = (string)$v['vehicle_id'];
+            $vlabel = trim($v['make'] . ' ' . $v['model'] . ' ' . $v['year']);
+            ?>
+            <option value="<?= htmlspecialchars($vid) ?>" <?= $vehicle_id === $vid ? 'selected' : '' ?>><?= htmlspecialchars($vlabel) ?></option>
+        <?php endforeach; ?>
+    </select>
 
-    <label>Customer ID</label>
-    <input type="number" name="customer_id" value="<?= htmlspecialchars($customer_id) ?>" required>
+    <label>Customer</label>
+    <select name="customer_id" required>
+        <option value="">Select customer</option>
+        <?php foreach ($customers as $c): ?>
+            <?php
+            $cid = (string)$c['customer_id'];
+            $clabel = trim($c['first_name'] . ' ' . $c['last_name']);
+            ?>
+            <option value="<?= htmlspecialchars($cid) ?>" <?= $customer_id === $cid ? 'selected' : '' ?>><?= htmlspecialchars($clabel) ?></option>
+        <?php endforeach; ?>
+    </select>
 
-    <label>Salesperson ID</label>
-    <input type="number" name="salesperson_id" value="<?= htmlspecialchars($salesperson_id) ?>" required>
+    <label>Salesperson</label>
+    <select name="salesperson_id" required>
+        <option value="">Select salesperson</option>
+        <?php foreach ($salespeople as $sp): ?>
+            <?php
+            $sid = (string)$sp['employee_id'];
+            $splabel = trim($sp['first_name'] . ' ' . $sp['last_name']);
+            ?>
+            <option value="<?= htmlspecialchars($sid) ?>" <?= $salesperson_id === $sid ? 'selected' : '' ?>><?= htmlspecialchars($splabel) ?></option>
+        <?php endforeach; ?>
+    </select>
 
     <label>Sale Date</label>
     <input type="date" name="sale_date" value="<?= htmlspecialchars($sale_date) ?>" required>

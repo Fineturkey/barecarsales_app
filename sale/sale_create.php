@@ -25,13 +25,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $salesperson_commission = trim($_POST['salesperson_commission'] ?? '0');
     $total_due = trim($_POST['total_due'] ?? '0');
 
-    if ($vehicle_id === '' || !ctype_digit($vehicle_id) || (int)$vehicle_id <= 0) {
+    if ($vehicle_id === '' || !ctype_digit($vehicle_id)) {
         $errors[] = "Vehicle ID is required and must be a valid number.";
     }
-    if ($customer_id === '' || !ctype_digit($customer_id) || (int)$customer_id <= 0) {
+    if ($customer_id === '' || !ctype_digit($customer_id)) {
         $errors[] = "Customer ID is required and must be a valid number.";
     }
-    if ($salesperson_id === '' || !ctype_digit($salesperson_id) || (int)$salesperson_id <= 0) {
+    if ($salesperson_id === '' || !ctype_digit($salesperson_id)) {
         $errors[] = "Salesperson ID is required and must be a valid number.";
     }
     if ($sale_date === '') {
@@ -101,6 +101,47 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
+// fetch vehicles for dropdown
+$vehicles = [];
+$vehicles_result = $conn->query("
+    SELECT vehicle_id, make, model, year
+    FROM vehicle
+    WHERE current_status = 'in_stock'
+    ORDER BY make, model, year
+");
+if ($vehicles_result) {
+    while ($row = $vehicles_result->fetch_assoc()) {
+        $vehicles[] = $row;
+    }
+}
+
+// fetch customers for dropdown
+$customers = [];
+$customers_result = $conn->query("
+    SELECT customer_id, first_name, last_name
+    FROM customer
+    ORDER BY last_name, first_name
+");
+if ($customers_result) {
+    while ($row = $customers_result->fetch_assoc()) {
+        $customers[] = $row;
+    }
+}
+
+// fetch salespeople for dropdown
+$salespeople = [];
+$salespeople_res = $conn->query("
+    SELECT employee_id, first_name, last_name
+    FROM employee
+    WHERE role IN ('salesperson', 'both')
+    ORDER BY last_name, first_name
+");
+if ($salespeople_result) {
+    while ($row = $salespeople_result->fetch_assoc()) {
+        $salespeople[] = $row;
+    }
+}
+
 include '../header.php';
 ?>
 
@@ -111,14 +152,41 @@ include '../header.php';
 <?php endforeach; ?>
 
 <form method="post">
-    <label>Vehicle ID</label>
-    <input type="text" name="vehicle_id" value="<?= htmlspecialchars($vehicle_id) ?>" required>
+    <label>Vehicle</label>
+    <select name="vehicle_id" required>
+        <option value="">Select vehicle</option>
+        <?php foreach ($vehicles as $v): ?>
+            <?php
+            $vid = (string)$v['vehicle_id'];
+            $vlabel = trim($v['make'] . ' ' . $v['model'] . ' ' . $v['year']);
+            ?>
+            <option value="<?= htmlspecialchars($vid) ?>" <?= $vehicle_id === $vid ? 'selected' : '' ?>><?= htmlspecialchars($vlabel) ?></option>
+        <?php endforeach; ?>
+    </select>
 
-    <label>Customer ID</label>
-    <input type="text" name="customer_id" value="<?= htmlspecialchars($customer_id) ?>" required>
+    <label>Customer</label>
+    <select name="customer_id" required>
+        <option value="">Select customer</option>
+        <?php foreach ($customers as $c): ?>
+            <?php
+            $cid = (string)$c['customer_id'];
+            $clabel = trim($c['first_name'] . ' ' . $c['last_name']);
+            ?>
+            <option value="<?= htmlspecialchars($cid) ?>" <?= $customer_id === $cid ? 'selected' : '' ?>><?= htmlspecialchars($clabel) ?></option>
+        <?php endforeach; ?>
+    </select>
 
-    <label>Salesperson ID</label>
-    <input type="text" name="salesperson_id" value="<?= htmlspecialchars($salesperson_id) ?>" required>
+    <label>Salesperson</label>
+    <select name="salesperson_id" required>
+        <option value="">Select salesperson</option>
+        <?php foreach ($salespeople as $sp): ?>
+            <?php
+            $sid = (string)$sp['employee_id'];
+            $splabel = trim($sp['first_name'] . ' ' . $sp['last_name']);
+            ?>
+            <option value="<?= htmlspecialchars($sid) ?>" <?= $salesperson_id === $sid ? 'selected' : '' ?>><?= htmlspecialchars($splabel) ?></option>
+        <?php endforeach; ?>
+    </select>
 
     <label>Total Due</label>
     <input type="number" step="0.01" name="total_due" value="<?= htmlspecialchars($total_due) ?>" required>

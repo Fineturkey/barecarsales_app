@@ -4,18 +4,21 @@ include '../header.php';
 
 $result = $conn->query("
     SELECT
-        sale_id,
-        vehicle_id,
-        customer_id,
-        salesperson_employee_id,
-        sale_date,
-        total_due,
-        down_payment,
-        financed_amount,
-        sale_price,
-        salesperson_commission
-    FROM sale
-    ORDER BY sale_id ASC
+        s.sale_id,
+        s.sale_date,
+        s.total_due,
+        s.down_payment,
+        s.financed_amount,
+        s.sale_price,
+        s.salesperson_commission,
+        CONCAT(v.make, ' ', v.model, ' ', v.year) AS vehicle_label,
+        TRIM(CONCAT(c.first_name, ' ', c.last_name)) AS customer_name,
+        TRIM(CONCAT(e.first_name, ' ', e.last_name)) AS salesperson_name
+    FROM sale s
+    INNER JOIN vehicle v ON s.vehicle_id = v.vehicle_id
+    INNER JOIN customer c ON s.customer_id = c.customer_id
+    INNER JOIN employee e ON s.salesperson_employee_id = e.employee_id
+    ORDER BY s.sale_id ASC
 ");
 ?>
 
@@ -40,9 +43,9 @@ $result = $conn->query("
 <table>
     <tr>
         <th>Sale ID</th>
-        <th>Vehicle ID</th>
-        <th>Customer ID</th>
-        <th>Salesperson ID</th>
+        <th>Vehicle</th>
+        <th>Customer</th>
+        <th>Salesperson</th>
         <th>Sale Date</th>
         <th>Total Due</th>
         <th>Down Payment</th>
@@ -55,9 +58,9 @@ $result = $conn->query("
     <?php while ($row = $result->fetch_assoc()): ?>
         <tr>
             <td><?= htmlspecialchars($row['sale_id']) ?></td>
-            <td><?= htmlspecialchars($row['vehicle_id']) ?></td>
-            <td><?= htmlspecialchars($row['customer_id']) ?></td>
-            <td><?= htmlspecialchars($row['salesperson_employee_id']) ?></td>
+            <td><?= htmlspecialchars($row['vehicle_label']) ?></td>
+            <td><?= htmlspecialchars($row['customer_name']) ?></td>
+            <td><?= htmlspecialchars($row['salesperson_name']) ?></td>
             <td><?= htmlspecialchars($row['sale_date']) ?></td>
             <td><?= htmlspecialchars($row['total_due']) ?></td>
             <td><?= htmlspecialchars($row['down_payment']) ?></td>
