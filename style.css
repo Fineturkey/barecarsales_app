@@ -149,3 +149,11 @@ button,
     background: #fdecea;
     color: #b3261e;
 }
+
+.hero-img {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-top: 20px;
+}

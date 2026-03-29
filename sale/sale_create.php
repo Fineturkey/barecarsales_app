@@ -68,14 +68,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
 
-        $vehicle_id_int = (int)$vehicle_id;
-        $customer_id_int = (int)$customer_id;
-        $salesperson_id_int = (int)$salesperson_id;
-        $down_payment_float = (float)$down_payment;
-        $financed_amount_float = (float)$financed_amount;
-        $sale_price_float = (float)$sale_price;
-        $salesperson_commission_float = (float)$salesperson_commission;
-        $total_due_float = (float)$total_due;
+        $vehicle_id_int = (int) $vehicle_id;
+        $customer_id_int = (int) $customer_id;
+        $salesperson_id_int = (int) $salesperson_id;
+        $down_payment_float = (float) $down_payment;
+        $financed_amount_float = (float) $financed_amount;
+        $sale_price_float = (float) $sale_price;
+        $salesperson_commission_float = (float) $salesperson_commission;
+        $total_due_float = (float) $total_due;
 
         $stmt->bind_param(
             "iiisddddd",
@@ -136,8 +136,8 @@ $salespeople_res = $conn->query("
     WHERE role IN ('salesperson', 'both')
     ORDER BY last_name, first_name
 ");
-if ($salespeople_result) {
-    while ($row = $salespeople_result->fetch_assoc()) {
+if ($salespeople_res) {
+    while ($row = $salespeople_res->fetch_assoc()) {
         $salespeople[] = $row;
     }
 }
@@ -157,10 +157,11 @@ include '../header.php';
         <option value="">Select vehicle</option>
         <?php foreach ($vehicles as $v): ?>
             <?php
-            $vid = (string)$v['vehicle_id'];
+            $vid = (string) $v['vehicle_id'];
             $vlabel = trim($v['make'] . ' ' . $v['model'] . ' ' . $v['year']);
             ?>
-            <option value="<?= htmlspecialchars($vid) ?>" <?= $vehicle_id === $vid ? 'selected' : '' ?>><?= htmlspecialchars($vlabel) ?></option>
+            <option value="<?= htmlspecialchars($vid) ?>" <?= $vehicle_id === $vid ? 'selected' : '' ?>>
+                <?= htmlspecialchars($vlabel) ?></option>
         <?php endforeach; ?>
     </select>
 
@@ -169,10 +170,11 @@ include '../header.php';
         <option value="">Select customer</option>
         <?php foreach ($customers as $c): ?>
             <?php
-            $cid = (string)$c['customer_id'];
+            $cid = (string) $c['customer_id'];
             $clabel = trim($c['first_name'] . ' ' . $c['last_name']);
             ?>
-            <option value="<?= htmlspecialchars($cid) ?>" <?= $customer_id === $cid ? 'selected' : '' ?>><?= htmlspecialchars($clabel) ?></option>
+            <option value="<?= htmlspecialchars($cid) ?>" <?= $customer_id === $cid ? 'selected' : '' ?>>
+                <?= htmlspecialchars($clabel) ?></option>
         <?php endforeach; ?>
     </select>
 
@@ -181,10 +183,11 @@ include '../header.php';
         <option value="">Select salesperson</option>
         <?php foreach ($salespeople as $sp): ?>
             <?php
-            $sid = (string)$sp['employee_id'];
+            $sid = (string) $sp['employee_id'];
             $splabel = trim($sp['first_name'] . ' ' . $sp['last_name']);
             ?>
-            <option value="<?= htmlspecialchars($sid) ?>" <?= $salesperson_id === $sid ? 'selected' : '' ?>><?= htmlspecialchars($splabel) ?></option>
+            <option value="<?= htmlspecialchars($sid) ?>" <?= $salesperson_id === $sid ? 'selected' : '' ?>>
+                <?= htmlspecialchars($splabel) ?></option>
         <?php endforeach; ?>
     </select>
 
@@ -204,7 +207,8 @@ include '../header.php';
     <input type="date" name="sale_date" value="<?= htmlspecialchars($sale_date) ?>" required>
 
     <label>Salesperson Commission</label>
-    <input type="number" step="0.01" name="salesperson_commission" value="<?= htmlspecialchars($salesperson_commission) ?>" required>
+    <input type="number" step="0.01" name="salesperson_commission"
+        value="<?= htmlspecialchars($salesperson_commission) ?>" required>
 
     <button type="submit">Save Sale</button>
     <a class="btn btn-secondary" href="sales.php">Cancel</a>
