@@ -72,12 +72,8 @@ $result = $conn->query("
             <td><?= htmlspecialchars($row['current_status']) ?></td>
             <td>
                 <a class="btn" href="vehicle_edit.php?id=<?= $row['vehicle_id'] ?>">Edit</a>
-
-                <?php if ($purchase_count == 0): ?>
-                    <a class="btn" href="vehicle_delete.php?id=<?= $row['vehicle_id'] ?>" onclick="return confirm('Are you sure you want to delete this vehicle?');">Delete</a>
-                <?php else: ?>
-                    <span class="btn disabled" title="Cannot delete - related records exist">Delete</span>
-                <?php endif; ?>
+                <a class="btn btn-danger" href="vehicle_delete.php?id=<?= $row['vehicle_id'] ?>"
+                    onclick="return confirm('Are you sure you want to delete this Vehicle?');">Delete</a>
             </td>
         </tr>
     <?php endwhile; ?>
