@@ -1,25 +1,8 @@
 <?php include 'header.php'; ?>
 
 <h2>Welcome</h2>
-<p>Use this interface to manage the Buyer table.</p>
+<p>What up it is Jones Auto!</p>
 
-<ul>
-    <li><a href="repair/repairs.php">View all repair</a></li>
-    <li><a href="repair/repair_create.php">Insert new repair</a></li>
-    <li><a href="repair/repair_delete.php">Delete repair</a></li>
-    <li><a href="customer/customers.php">View all customers</a></li>
-    <li><a href="customer/customer_create.php">Insert new customer</a></li>
-    <li><a href="customer/customer_delete.php">Delete new customer</a></li>
-    <li><a href="employee/employees.php">View all employees</a></li>
-    <li><a href="employee/employee_create.php">Insert new employee</a></li>
-    <li><a href="employee/employee_delete.php">Delete new employee</a></li>
-    <li><a href="purchase/purchases.php">View all purchases</a></li>
-    <li><a href="purchase/purchase_create.php">Insert new purchase</a></li>
-    <li><a href="purchase/purchase_delete.php">Delete purchase</a></li>
-    <li><a href="vehicle/vehicle_create.php">Create Vehicle</a></li>
-    <li><a href="vehicle/vehicles.php">Vehicle</a></li>
-    <li><a href="vehicle/vehicle_delete.php">Delete Vehicle</a></li>
-</ul>
-
+<img src="/barecarsales_app/images/Crappycars.avif" class="hero-img" alt="Jones Auto showroom">
 
 <?php include 'footer.php'; ?>
