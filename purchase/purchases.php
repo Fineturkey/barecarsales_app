@@ -4,6 +4,7 @@ include '../header.php';
 
 $result = $conn->query("
     SELECT
+        purchase_id,
         vehicle_id,
         buyer_employee_id,
         seller_name,
@@ -42,20 +43,21 @@ $result = $conn->query("
         <th>Seller Name</th>
         <th>Purchase Date</th>
         <th>Location</th>
-        <th>Is auction</th>
+        <th>Price paid</th>
+        <th>Is Auction?</th>
         <th>Actions</th>
     </tr>
 
     <?php while ($row = $result->fetch_assoc()): ?>
         <tr>
-            <td><?= htmlspecialchars($row['purchase_id']) ?></td>
-            <td><?= htmlspecialchars($row['vehicle_id']) ?></td>
-            <td><?= htmlspecialchars($row['buyer_employee_id']) ?></td>
+            <td><?= htmlspecialchars((string) $row['purchase_id']) ?></td>
+            <td><?= htmlspecialchars((string) $row['vehicle_id']) ?></td>
+            <td><?= htmlspecialchars((string) $row['buyer_employee_id']) ?></td>
             <td><?= htmlspecialchars($row['seller_name']) ?></td>
-            <td><?= htmlspecialchars($row['purchase_date']) ?></td>
-            <td><?= htmlspecialchars($row['location']) ?></td>
-            <td><?= htmlspecialchars($row['price_paid']) ?></td>
-            <td><?= $row['is_auction'] ? 'Yes' : 'No' ?></td>
+            <td><?= htmlspecialchars((string) $row['purchase_date']) ?></td>
+            <td><?= htmlspecialchars((string) $row['location']) ?></td>
+            <td><?= htmlspecialchars((string) $row['price_paid']) ?></td>
+            <td><?= !empty($row['is_auction']) ? 'Yes' : 'No' ?></td>
             <td>
                 <a class="btn" href="purchase_edit.php?id=<?= $row['purchase_id'] ?>">Edit</a>
                 <a class="btn btn-danger" href="purchase_delete.php?id=<?= $row['purchase_id'] ?>" onclick="return confirm('Are you sure you want to delete this purchase?');">Delete</a>
