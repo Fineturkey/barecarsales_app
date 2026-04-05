@@ -16,6 +16,13 @@
                 <li><a href="/barecarsales_app/index.php">Home</a></li>
 
                 <li class="dropdown">
+                    <a href="#">Reports</a>
+                    <ul class="submenu">
+                        <li><a href="/barecarsales_app/reports/index.php">Overview</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
                     <a href="#">Repairs</a>
                     <ul class="submenu">
                         <li><a href="/barecarsales_app/repair/repairs.php">Manage Repairs</a></li>

@@ -37,7 +37,7 @@ if ($max_miles !== null) {
 }
 ?>
 
-<h2>vehicle Table</h2>
+<h2>Vehicle Table</h2>
 
 <a class="btn" href="vehicle_create.php">Add New vehicle</a>
 
