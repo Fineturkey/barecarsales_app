@@ -1,6 +1,5 @@
 ﻿<?php
 include '../db.php';
-include '../header.php';
 
 $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 $errors = [];
@@ -135,6 +134,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt->close();
     }
 }
+
+include '../header.php';
 ?>
 
 <h2>Edit Vehicle</h2>
