@@ -41,7 +41,7 @@ $result = $conn->query("
 
 <table>
     <tr>
-        <th>vehicle ID</th>
+        <th>Vehicle ID</th>
         <th>VIN</th>
         <th>Make</th>
         <th>Model</th>

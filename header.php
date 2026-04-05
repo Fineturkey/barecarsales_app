@@ -71,11 +71,11 @@
                 <li class="dropdown">
                     <a href="#">Vehicle</a>
                     <ul class="submenu">
-                        <li><a href="/barecarsales_app/vehicle/vehicle.php">Manage Vehicle</a></li>
+                        <li><a href="/barecarsales_app/vehicle/vehicles.php">Manage Vehicles</a></li>
                         <li><a href="/barecarsales_app/vehicle/vehicle_create.php">Add Vehicle</a></li>
                         <li><a href="/barecarsales_app/vehicle/vehicle_delete.php">Delete Vehicle</a></li>
                     </ul>
-                </li>f
+                </li>
             </ul>
         </nav>
         <h

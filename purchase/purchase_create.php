@@ -7,7 +7,7 @@ $buyer_employee_id = '';
 $seller_name = '';
 $purchase_date = '';
 $location = '';
-$is_auction = '';
+$is_auction = 0;
 $price_paid = ''; 
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -16,7 +16,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $seller_name = trim($_POST['seller_name'] ?? '');
     $purchase_date = trim($_POST['purchase_date'] ?? '');
     $location = trim($_POST['location'] ?? '');
-    $is_auction = trim($_POST['is_auction'] ?? '');
+
+    $is_auction = isset($_POST['is_auction']) && (string) $_POST['is_auction'] === '1' ? 1 : 0;
     $price_paid = trim($_POST['price_paid'] ?? '');
 
     if ($vehicle_id === '') {
@@ -33,10 +34,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($purchase_date === '') {
         $errors[] = "Purchase date is required.";
-    }
-
-    if ($is_auction === '') {
-        $errors[] = "Is it for auction?.";
     }
 
     if ($price_paid === '') {

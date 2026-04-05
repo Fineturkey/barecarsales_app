@@ -27,7 +27,7 @@ if (!$employee) {
 $first_name = $employee['first_name'];
 $last_name = $employee['last_name'];
 $phone = $employee['phone'];
-$role = $role['role'];
+$role = $employee['role'];
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $first_name = trim($_POST['first_name'] ?? '');
@@ -43,12 +43,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $errors[] = "Last name is required.";
     }
 
-    if ($phone !== '') {
+    if ($phone === '') {
         $errors[] = "Phone number is required.";
     }
 
-    if ($avg_days_late !== '') {
-        $errors[] = "Role is required";
+    if ($role === '') {
+        $errors[] = "Role is required.";
     }
 
     if (empty($errors)) {
@@ -58,16 +58,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 first_name = ?,
                 last_name = ?,
                 phone = ?,
-                role = ?,
+                role = ?
             WHERE employee_id = ?
         ");
 
         $stmt->bind_param(
-            "ssss",
+            "ssssi",
             $first_name,
             $last_name,
             $phone,
             $role,
+            $id
         );
 
         if ($stmt->execute()) {
@@ -98,10 +99,17 @@ include '../header.php';
     <input type="text" name="last_name" value="<?= htmlspecialchars($last_name) ?>" required>
 
     <label>Phone</label>
-    <input type="text" name="phone" value="<?= htmlspecialchars($phone) ?>">
+    <input type="text" name="phone" value="<?= htmlspecialchars($phone) ?>" required>
 
     <label>Role</label>
-    <input type="text" name="role" value="<?= htmlspecialchars($role) ?>">
+    <select name="role" required>
+        <option value="">— Select role —</option>
+        <option value="buyer" <?= $role === 'buyer' ? 'selected' : '' ?>>Buyer</option>
+        <option value="salesperson" <?= $role === 'salesperson' ? 'selected' : '' ?>>Salesperson</option>
+        <option value="both" <?= $role === 'both' ? 'selected' : '' ?>>Both</option>
+        <option value="Manager" <?= $role === 'Manager' ? 'selected' : '' ?>>Manager</option>
+        <option value="Top G" <?= $role === 'Top G' ? 'selected' : '' ?>>Top G</option>
+    </select>
 
 
     <button type="submit">Update employee</button>

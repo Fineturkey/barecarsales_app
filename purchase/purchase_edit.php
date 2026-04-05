@@ -1,7 +1,7 @@
 <?php
 include '../db.php';
 
-$id = isset($_GET['id']) ? (int)$$_GET['id'] : 0;
+$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 $errors = [];
 
 $stmt = $conn->prepare("
