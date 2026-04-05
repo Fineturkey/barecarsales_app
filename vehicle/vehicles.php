@@ -2,7 +2,15 @@
 include '../db.php';
 include '../header.php';
 
-$result = $conn->query("
+$max_miles = null;
+if (isset($_GET['max_miles']) && $_GET['max_miles'] !== '') {
+    $raw = trim((string) $_GET['max_miles']);
+    if (ctype_digit($raw) && (int) $raw > 0) {
+        $max_miles = (int) $raw;
+    }
+}
+
+$select_sql = "
     SELECT
         vehicle_id,
         vin,
@@ -17,13 +25,37 @@ $result = $conn->query("
         interior_color,
         current_status
     FROM vehicle
-    ORDER BY vehicle_id ASC
-");
+";
+
+if ($max_miles !== null) {
+    $stmt = $conn->prepare($select_sql . " WHERE miles IS NOT NULL AND miles < ? ORDER BY vehicle_id ASC");
+    $stmt->bind_param("i", $max_miles);
+    $stmt->execute();
+    $result = $stmt->get_result();
+} else {
+    $result = $conn->query($select_sql . " ORDER BY vehicle_id ASC");
+}
 ?>
 
 <h2>vehicle Table</h2>
 
 <a class="btn" href="vehicle_create.php">Add New vehicle</a>
+
+<form method="get" action="vehicles.php" style="margin: 1rem 0; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+    <label for="max_miles">Show vehicles under</label>
+    <input type="number" id="max_miles" name="max_miles" min="1" step="1"
+        value="<?= $max_miles !== null ? htmlspecialchars((string) $max_miles) : '' ?>"
+        placeholder="e.g. 50000" style="width: 8rem;">
+    <span>miles</span>
+    <button type="submit" class="btn">Apply</button>
+    <?php if ($max_miles !== null): ?>
+        <a class="btn" href="vehicles.php">Clear filter</a>
+    <?php endif; ?>
+</form>
+
+<?php if ($max_miles !== null): ?>
+    <p class="message success" style="margin-bottom: 1rem;">Showing vehicles with mileage under <?= htmlspecialchars((string) $max_miles) ?>.</p>
+<?php endif; ?>
 
 <?php if (isset($_GET['msg'])): ?>
     <?php if ($_GET['msg'] === 'created'): ?>
@@ -81,5 +113,8 @@ $result = $conn->query("
 
 <?php
 include '../footer.php';
+if (isset($stmt)) {
+    $stmt->close();
+}
 $conn->close();
 ?>
