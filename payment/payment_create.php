@@ -23,7 +23,7 @@ if ($result) {
     }
 }
 
-// Fetch sales for the selected customer test
+// Fetch sales for the selected customer
 $sales = [];
 $customer_id_selected = isset($_POST['customer_id']) ? trim($_POST['customer_id'] ?? '') : (isset($_GET['customer_id']) ? (int)$_GET['customer_id'] : '');
 if ($customer_id_selected && ctype_digit($customer_id_selected)) {

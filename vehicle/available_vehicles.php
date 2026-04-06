@@ -2,14 +2,6 @@
 include '../db.php';
 include '../header.php';
 
-$max_miles = null;
-if (isset($_GET['max_miles']) && $_GET['max_miles'] !== '') {
-    $raw = trim((string) $_GET['max_miles']);
-    if (ctype_digit($raw) && (int) $raw > 0) {
-        $max_miles = (int) $raw;
-    }
-}
-
 $select_sql = "
     SELECT
         vehicle_id,
@@ -25,50 +17,31 @@ $select_sql = "
         interior_color,
         current_status
     FROM vehicle
+    WHERE current_status = 'in_stock'
+    ORDER BY vehicle_id ASC
 ";
 
-if ($max_miles !== null) {
-    $stmt = $conn->prepare($select_sql . " WHERE miles IS NOT NULL AND miles < ? ORDER BY vehicle_id ASC");
-    $stmt->bind_param("i", $max_miles);
-    $stmt->execute();
-    $result = $stmt->get_result();
-} else {
-    $result = $conn->query($select_sql . " ORDER BY vehicle_id ASC");
-}
+$result = $conn->query($select_sql);
 ?>
 
-<h2>Vehicle Table</h2>
+<h2>Available Vehicles (In Stock)</h2>
 
-<a class="btn" href="vehicle_create.php">Add New vehicle</a>
-<a class="btn" href="available_vehicles.php">View Available Vehicles</a>
+<p class="message info">Showing only vehicles that are currently available for sale (status: in_stock).</p>
 
-<form method="get" action="vehicles.php" style="margin: 1rem 0; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
-    <label for="max_miles">Show vehicles under</label>
-    <input type="number" id="max_miles" name="max_miles" min="1" step="1"
-        value="<?= $max_miles !== null ? htmlspecialchars((string) $max_miles) : '' ?>"
-        placeholder="e.g. 50000" style="width: 8rem;">
-    <span>miles</span>
-    <button type="submit" class="btn">Apply</button>
-    <?php if ($max_miles !== null): ?>
-        <a class="btn" href="vehicles.php">Clear filter</a>
-    <?php endif; ?>
-</form>
-
-<?php if ($max_miles !== null): ?>
-    <p class="message success" style="margin-bottom: 1rem;">Showing vehicles with mileage under <?= htmlspecialchars((string) $max_miles) ?>.</p>
-<?php endif; ?>
+<a class="btn" href="vehicle_create.php">Add New Vehicle</a>
+<a class="btn" href="vehicles.php">View All Vehicles</a>
 
 <?php if (isset($_GET['msg'])): ?>
     <?php if ($_GET['msg'] === 'created'): ?>
-        <div class="message success">vehicle created successfully.</div>
+        <div class="message success">Vehicle created successfully.</div>
     <?php elseif ($_GET['msg'] === 'updated'): ?>
-        <div class="message success">vehicle updated successfully.</div>
+        <div class="message success">Vehicle updated successfully.</div>
     <?php elseif ($_GET['msg'] === 'deleted'): ?>
-        <div class="message success">vehicle deleted successfully.</div>
+        <div class="message success">Vehicle deleted successfully.</div>
     <?php elseif ($_GET['msg'] === 'delete_blocked'): ?>
         <div class="message error">This vehicle cannot be deleted because related records exist in another table.</div>
     <?php elseif ($_GET['msg'] === 'not_found'): ?>
-        <div class="message error">vehicle not found.</div>
+        <div class="message error">Vehicle not found.</div>
     <?php endif; ?>
 <?php endif; ?>
 
@@ -114,8 +87,5 @@ if ($max_miles !== null) {
 
 <?php
 include '../footer.php';
-if (isset($stmt)) {
-    $stmt->close();
-}
 $conn->close();
 ?>
