@@ -154,7 +154,7 @@ include '../header.php';
 <form method="post">
     <label>Vehicle</label>
     <select name="vehicle_id" required>
-        <option value="">Select vehicle</option>
+        <option value="">-- Select vehicle --</option>
         <?php foreach ($vehicles as $v): ?>
             <?php
             $vid = (string) $v['vehicle_id'];
@@ -167,27 +167,21 @@ include '../header.php';
 
     <label>Customer</label>
     <select name="customer_id" required>
-        <option value="">Select customer</option>
-        <?php foreach ($customers as $c): ?>
-            <?php
-            $cid = (string) $c['customer_id'];
-            $clabel = trim($c['first_name'] . ' ' . $c['last_name']);
-            ?>
-            <option value="<?= htmlspecialchars($cid) ?>" <?= $customer_id === $cid ? 'selected' : '' ?>>
-                <?= htmlspecialchars($clabel) ?></option>
+        <option value="">-- Select customer --</option>
+        <?php foreach ($customers as $cust): ?>
+            <option value="<?= $cust['customer_id'] ?>" <?= $cust['customer_id'] == $customer_id ? 'selected' : '' ?>>
+                <?= htmlspecialchars($cust['customer_id'] . ' - ' . $cust['last_name'] . ', ' . $cust['first_name']) ?>
+            </option>
         <?php endforeach; ?>
     </select>
 
     <label>Salesperson</label>
     <select name="salesperson_id" required>
-        <option value="">Select salesperson</option>
+        <option value="">-- Select salesperson --</option>
         <?php foreach ($salespeople as $sp): ?>
-            <?php
-            $sid = (string) $sp['employee_id'];
-            $splabel = trim($sp['first_name'] . ' ' . $sp['last_name']);
-            ?>
-            <option value="<?= htmlspecialchars($sid) ?>" <?= $salesperson_id === $sid ? 'selected' : '' ?>>
-                <?= htmlspecialchars($splabel) ?></option>
+            <option value="<?= $sp['employee_id'] ?>" <?= $sp['employee_id'] == $salesperson_id ? 'selected' : '' ?>>
+                <?= htmlspecialchars($sp['employee_id'] . ' - ' . $sp['last_name'] . ', ' . $sp['first_name']) ?>
+            </option>
         <?php endforeach; ?>
     </select>
 

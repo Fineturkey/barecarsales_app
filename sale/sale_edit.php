@@ -200,12 +200,10 @@ include '../header.php';
     <label>Customer</label>
     <select name="customer_id" required>
         <option value="">-- Select Customer --</option>
-        <?php foreach ($customers as $c): ?>
-            <?php
-            $cid = (string)$c['customer_id'];
-            $clabel = trim($c['first_name'] . ' ' . $c['last_name']);
-            ?>
-            <option value="<?= htmlspecialchars($cid) ?>" <?= $customer_id === $cid ? 'selected' : '' ?>><?= htmlspecialchars($clabel) ?></option>
+        <?php foreach ($customers as $cust): ?>
+            <option value="<?= $cust['customer_id'] ?>" <?= $cust['customer_id'] == $customer_id ? 'selected' : '' ?>>
+                <?= htmlspecialchars($cust['customer_id'] . ' - ' . $cust['last_name'] . ', ' . $cust['first_name']) ?>
+            </option>
         <?php endforeach; ?>
     </select>
 
@@ -213,11 +211,9 @@ include '../header.php';
     <select name="salesperson_id" required>
         <option value="">-- Select Salesperson --</option>
         <?php foreach ($salespeople as $sp): ?>
-            <?php
-            $sid = (string)$sp['employee_id'];
-            $splabel = trim($sp['first_name'] . ' ' . $sp['last_name']);
-            ?>
-            <option value="<?= htmlspecialchars($sid) ?>" <?= $salesperson_id === $sid ? 'selected' : '' ?>><?= htmlspecialchars($splabel) ?></option>
+            <option value="<?= $sp['employee_id'] ?>" <?= $sp['employee_id'] == $salesperson_id ? 'selected' : '' ?>>
+                <?= htmlspecialchars($sp['employee_id'] . ' - ' . $sp['last_name'] . ', ' . $sp['first_name']) ?>
+            </option>
         <?php endforeach; ?>
     </select>
 
