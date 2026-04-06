@@ -48,8 +48,8 @@ $result = $stmt->get_result();
 
 <p class="message info">Showing vehicles from manufacturers matching "<?= htmlspecialchars($manufacturer) ?>" (independent of availability status).</p>
 
-<a class="btn" href="available_vehicles.php">Back to All Available Vehicles</a>
 <a class="btn" href="vehicles.php">View All Vehicles</a>
+<a class="btn" href="available_vehicles.php">Back to All Available Vehicles</a>
 
 <?php if ($result->num_rows === 0): ?>
     <p class="message warning">No available vehicles found from "<?= htmlspecialchars($manufacturer) ?>".</p>
