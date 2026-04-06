@@ -54,6 +54,13 @@ if ($max_miles !== null) {
     <?php endif; ?>
 </form>
 
+<form method="get" action="manufacturer_vehicles.php" style="margin: 1rem 0; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+    <label for="manufacturer">Search Vehicles by Manufacturer</label>
+    <input type="text" id="manufacturer" name="manufacturer" pattern="[A-Za-z\s]+" title="Only letters and spaces allowed"
+        placeholder="e.g. Toyota" style="width: 10rem;" required>
+    <button type="submit" class="btn">Search</button>
+</form>
+
 <?php if ($max_miles !== null): ?>
     <p class="message success" style="margin-bottom: 1rem;">Showing vehicles with mileage under <?= htmlspecialchars((string) $max_miles) ?>.</p>
 <?php endif; ?>
