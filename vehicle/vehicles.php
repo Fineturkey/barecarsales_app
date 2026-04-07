@@ -23,7 +23,7 @@ $select_sql = "
         book_price,
         style,
         interior_color,
-        current_status,
+        current_status
     FROM vehicle
 ";
 
@@ -34,6 +34,10 @@ if ($max_miles !== null) {
     $result = $stmt->get_result();
 } else {
     $result = $conn->query($select_sql . " ORDER BY vehicle_id ASC");
+}
+
+if ($result === false) {
+    die("Vehicle query failed: " . htmlspecialchars($conn->error));
 }
 ?>
 
