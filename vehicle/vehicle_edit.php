@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $style = trim($_POST['style'] ?? '');
     $interior_color = trim($_POST['interior_color'] ?? '');
     $current_status = trim($_POST['current_status'] ?? '');
-    $has_warranty = isset($_POST['has_warranty']) ? 1 : 0;
+    $has_warranty = isset($_POST['has_warranty']) && (string) $_POST['has_warranty'] === '1' ? 1 : 0;
 
     if ($vin === '') {
         $errors[] = 'VIN is required.';
@@ -187,8 +187,10 @@ include '../header.php';
         <option value="repairing" <?= $current_status === 'repairing' ? 'selected' : '' ?>>Repairing</option>
     </select>
 
-    <label>Warranty</label>
-    <input type="checkbox" name="has_warranty" value="1" <?= $has_warranty ? 'checked' : '' ?>>
+    <label>
+        <input type="checkbox" name="has_warranty" value="1" <?= $has_warranty ? 'checked' : '' ?>>
+        Has Warranty
+    </label>
 
     <br><br>
     <button type="submit">Update Vehicle</button>
