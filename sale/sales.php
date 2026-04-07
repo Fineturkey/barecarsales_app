@@ -11,15 +11,24 @@ $result = $conn->query("
         s.financed_amount,
         s.sale_price,
         s.salesperson_commission,
-        CONCAT(v.make, ' ', v.model, ' ', v.year) AS vehicle_label,
-        c.customer_id,
-        TRIM(CONCAT(c.first_name, ' ', c.last_name)) AS customer_name,
-        e.employee_id AS salesperson_id,
-        TRIM(CONCAT(e.first_name, ' ', e.last_name)) AS salesperson_name
+        CASE
+            WHEN v.vehicle_id IS NULL THEN CONCAT('MISSING VEHICLE (ID ', s.vehicle_id, ')')
+            ELSE CONCAT(v.make, ' ', v.model, ' ', v.year)
+        END AS vehicle_label,
+        COALESCE(c.customer_id, s.customer_id) AS customer_id,
+        CASE
+            WHEN c.customer_id IS NULL THEN 'MISSING CUSTOMER'
+            ELSE TRIM(CONCAT(c.first_name, ' ', c.last_name))
+        END AS customer_name,
+        COALESCE(e.employee_id, s.salesperson_employee_id) AS salesperson_id,
+        CASE
+            WHEN e.employee_id IS NULL THEN 'MISSING EMPLOYEE'
+            ELSE TRIM(CONCAT(e.first_name, ' ', e.last_name))
+        END AS salesperson_name
     FROM sale s
-    INNER JOIN vehicle v ON s.vehicle_id = v.vehicle_id
-    INNER JOIN customer c ON s.customer_id = c.customer_id
-    INNER JOIN employee e ON s.salesperson_employee_id = e.employee_id
+    LEFT JOIN vehicle v ON s.vehicle_id = v.vehicle_id
+    LEFT JOIN customer c ON s.customer_id = c.customer_id
+    LEFT JOIN employee e ON s.salesperson_employee_id = e.employee_id
     ORDER BY s.sale_id ASC
 ");
 ?>
