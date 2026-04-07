@@ -24,7 +24,6 @@ $select_sql = "
         style,
         interior_color,
         current_status,
-        has_warranty
     FROM vehicle
 ";
 
@@ -86,7 +85,6 @@ if ($max_miles !== null) {
         <th>Style</th>
         <th>Interior Color</th>
         <th>Current Status</th>
-        <th>Warranty</th>
         <th>Actions</th>
     </tr>
 
@@ -104,7 +102,6 @@ if ($max_miles !== null) {
             <td><?= htmlspecialchars($row['style']) ?></td>
             <td><?= htmlspecialchars($row['interior_color']) ?></td>
             <td><?= htmlspecialchars($row['current_status']) ?></td>
-            <td><?= $row['has_warranty'] ? 'Yes' : 'No' ?></td>
             <td>
                 <a class="btn" href="vehicle_edit.php?id=<?= $row['vehicle_id'] ?>">Edit</a>
                 <a class="btn btn-danger" href="vehicle_delete.php?id=<?= $row['vehicle_id'] ?>"

@@ -17,7 +17,6 @@ $stmt = $conn->prepare("
         style,
         interior_color,
         current_status,
-        has_warranty
     FROM vehicle
     WHERE vehicle_id = ?
 ");
@@ -44,7 +43,6 @@ $book_price = $vehicle['book_price'];
 $style = $vehicle['style'];
 $interior_color = $vehicle['interior_color'];
 $current_status = $vehicle['current_status'];
-$has_warranty = $vehicle['has_warranty'];
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $vin = trim($_POST['vin'] ?? '');
@@ -58,7 +56,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $style = trim($_POST['style'] ?? '');
     $interior_color = trim($_POST['interior_color'] ?? '');
     $current_status = trim($_POST['current_status'] ?? '');
-    $has_warranty = isset($_POST['has_warranty']) && (string) $_POST['has_warranty'] === '1' ? 1 : 0;
 
     if ($vin === '') {
         $errors[] = 'VIN is required.';
@@ -108,7 +105,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 style = ?,
                 interior_color = ?,
                 current_status = ?,
-                has_warranty = ?
             WHERE vehicle_id = ?
         ");
 
@@ -125,7 +121,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $style,
             $interior_color,
             $current_status,
-            $has_warranty,
             $id
         );
 
@@ -186,11 +181,6 @@ include '../header.php';
         <option value="sold" <?= $current_status === 'sold' ? 'selected' : '' ?>>Sold</option>
         <option value="repairing" <?= $current_status === 'repairing' ? 'selected' : '' ?>>Repairing</option>
     </select>
-
-    <label>
-        <input type="checkbox" name="has_warranty" value="1" <?= $has_warranty ? 'checked' : '' ?>>
-        Has Warranty
-    </label>
 
     <br><br>
     <button type="submit">Update Vehicle</button>

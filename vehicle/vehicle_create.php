@@ -13,7 +13,6 @@ $book_price = '';
 $style = '';
 $interior_color = '';
 $current_status = 'in_stock';
-$has_warranty = 0;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $vin = trim($_POST['vin'] ?? '');
@@ -27,7 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $style = trim($_POST['style'] ?? '');
     $interior_color = trim($_POST['interior_color'] ?? '');
     $current_status = trim($_POST['current_status'] ?? 'in_stock');
-    $has_warranty = isset($_POST['has_warranty']) && (string) $_POST['has_warranty'] === '1' ? 1 : 0;
 
     if ($make === '') {
         $errors[] = 'Make is required.';
@@ -72,15 +70,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 style,
                 interior_color,
                 current_status,
-                has_warranty
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
         );
 
         if ($stmt === false) {
             $errors[] = 'Prepare failed: ' . $conn->error;
         } else {
             $stmt->bind_param(
-                'sssisssdsssi',
+                'sssisssdsss',
                 $vin,
                 $make,
                 $model,
@@ -92,7 +89,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $style,
                 $interior_color,
                 $current_status,
-                $has_warranty
             );
 
             if ($stmt->execute()) {
@@ -153,11 +149,6 @@ include '../header.php';
         <option value="sold" <?= $current_status === 'sold' ? 'selected' : '' ?>>Sold</option>
         <option value="repairing" <?= $current_status === 'repairing' ? 'selected' : '' ?>>Repairing</option>
     </select>
-
-    <label>
-        <input type="checkbox" name="has_warranty" value="1" <?= $has_warranty ? 'checked' : '' ?>>
-        Has Warranty
-    </label>
 
     <button type="submit">Add Vehicle</button>
     <a class="btn btn-secondary" href="vehicles.php">Cancel</a>
