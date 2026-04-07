@@ -76,7 +76,6 @@ $res_least = $conn->query($sql_least);
 $row_least = $res_least ? $res_least->fetch_assoc() : null;
 
 $res_repairs_over_cost = $conn->query($sql_repairs_over_cost);
-$row_repairs_over_cost = $res_repairs_over_cost ? $res_repairs_over_cost->fetch_assoc() : null;
 
 $res_vehicles_no_warranty = $conn->query($sql_vehicles_no_warranty);
 $row_vehicles_no_warranty = $res_vehicles_no_warranty ? $res_vehicles_no_warranty->fetch_assoc() : null;
