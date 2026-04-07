@@ -17,6 +17,56 @@ $total_cost = '';
 $monthly_cost = '';
 $warranty_commission = '';
 
+// fetch options for dropdowns
+$sales = [];
+$sales_res = $conn->query("
+    SELECT s.sale_id, s.sale_date, v.make, v.model, v.year
+    FROM sale s
+    INNER JOIN vehicle v ON s.vehicle_id = v.vehicle_id
+    ORDER BY s.sale_date DESC, s.sale_id DESC
+");
+if ($sales_res) {
+    while ($row = $sales_res->fetch_assoc()) {
+        $sales[] = $row;
+    }
+}
+
+$vehicles = [];
+$vehicles_res = $conn->query("
+    SELECT vehicle_id, make, model, year
+    FROM vehicle
+    ORDER BY make, model, year
+");
+if ($vehicles_res) {
+    while ($row = $vehicles_res->fetch_assoc()) {
+        $vehicles[] = $row;
+    }
+}
+
+$customers = [];
+$customers_res = $conn->query("
+    SELECT customer_id, first_name, last_name
+    FROM customer
+    ORDER BY last_name, first_name
+");
+if ($customers_res) {
+    while ($row = $customers_res->fetch_assoc()) {
+        $customers[] = $row;
+    }
+}
+
+$employees = [];
+$employees_res = $conn->query("
+    SELECT employee_id, first_name, last_name
+    FROM employee
+    ORDER BY last_name, first_name
+");
+if ($employees_res) {
+    while ($row = $employees_res->fetch_assoc()) {
+        $employees[] = $row;
+    }
+}
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $sale_id = trim($_POST['sale_id'] ?? '');
     $vehicle_id = trim($_POST['vehicle_id'] ?? '');
@@ -155,17 +205,61 @@ include '../header.php';
 <?php endforeach; ?>
 
 <form method="post">
-    <label>Sale ID</label>
-    <input type="number" name="sale_id" value="<?= htmlspecialchars($sale_id) ?>" required>
+    <label>Sale</label>
+    <select name="sale_id" required>
+        <option value="">Select sale</option>
+        <?php foreach ($sales as $s): ?>
+            <?php
+            $sid = (string)$s['sale_id'];
+            $slabel = 'Sale #' . $sid . ' — ' . $s['sale_date'] . ' — ' . $s['make'] . ' ' . $s['model'] . ' ' . $s['year'];
+            ?>
+            <option value="<?= htmlspecialchars($sid) ?>" <?= $sale_id === $sid ? 'selected' : '' ?>>
+                <?= htmlspecialchars($slabel) ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
 
-    <label>Vehicle ID</label>
-    <input type="number" name="vehicle_id" value="<?= htmlspecialchars($vehicle_id) ?>" required>
+    <label>Vehicle</label>
+    <select name="vehicle_id" required>
+        <option value="">Select vehicle</option>
+        <?php foreach ($vehicles as $v): ?>
+            <?php
+            $vid = (string)$v['vehicle_id'];
+            $vlabel = $v['make'] . ' ' . $v['model'] . ' ' . $v['year'];
+            ?>
+            <option value="<?= htmlspecialchars($vid) ?>" <?= $vehicle_id === $vid ? 'selected' : '' ?>>
+                <?= htmlspecialchars($vlabel) ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
 
-    <label>Customer ID</label>
-    <input type="number" name="customer_id" value="<?= htmlspecialchars($customer_id) ?>" required>
+    <label>Customer</label>
+    <select name="customer_id" required>
+        <option value="">Select customer</option>
+        <?php foreach ($customers as $c): ?>
+            <?php
+            $cid = (string)$c['customer_id'];
+            $clabel = $c['first_name'] . ' ' . $c['last_name'];
+            ?>
+            <option value="<?= htmlspecialchars($cid) ?>" <?= $customer_id === $cid ? 'selected' : '' ?>>
+                <?= htmlspecialchars($clabel) ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
 
-    <label>Employee ID</label>
-    <input type="number" name="employee_id" value="<?= htmlspecialchars($employee_id) ?>" required>
+    <label>Employee</label>
+    <select name="employee_id" required>
+        <option value="">Select employee</option>
+        <?php foreach ($employees as $e): ?>
+            <?php
+            $eid = (string)$e['employee_id'];
+            $elabel = $e['first_name'] . ' ' . $e['last_name'];
+            ?>
+            <option value="<?= htmlspecialchars($eid) ?>" <?= $employee_id === $eid ? 'selected' : '' ?>>
+                <?= htmlspecialchars($elabel) ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
 
     <label>Warranty Name</label>
     <input type="text" name="warranty_name" value="<?= htmlspecialchars($warranty_name) ?>" required>

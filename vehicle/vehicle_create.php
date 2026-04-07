@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 book_price,
                 style,
                 interior_color,
-                current_status
+                current_status,
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
         );
 
@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $book_price_float,
                 $style,
                 $interior_color,
-                $current_status
+                $current_status,
             );
 
             if ($stmt->execute()) {

@@ -35,6 +35,10 @@ if ($max_miles !== null) {
 } else {
     $result = $conn->query($select_sql . " ORDER BY vehicle_id ASC");
 }
+
+if ($result === false) {
+    die("Vehicle query failed: " . htmlspecialchars($conn->error));
+}
 ?>
 
 <h2>Vehicle Table</h2>

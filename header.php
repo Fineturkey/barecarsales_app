@@ -68,6 +68,15 @@
                 </li>
 
                 <li class="dropdown">
+                    <a href="#">Warranty</a>
+                    <ul class="submenu">
+                        <li><a href="/barecarsales_app/warranty/warranties.php">Manage Warranties</a></li>
+                        <li><a href="/barecarsales_app/warranty/warranty_create.php">Add Warranty</a></li>
+                        <li><a href="/barecarsales_app/warranty/warranties.php">Delete Warranty</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
                     <a href="#">Purchases</a>
                     <ul class="submenu">
                         <li><a href="/barecarsales_app/purchase/purchases.php">Manage Purchases</a></li>
