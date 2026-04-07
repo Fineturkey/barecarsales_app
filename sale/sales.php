@@ -12,7 +12,9 @@ $result = $conn->query("
         s.sale_price,
         s.salesperson_commission,
         CONCAT(v.make, ' ', v.model, ' ', v.year) AS vehicle_label,
+        c.customer_id,
         TRIM(CONCAT(c.first_name, ' ', c.last_name)) AS customer_name,
+        e.employee_id AS salesperson_id,
         TRIM(CONCAT(e.first_name, ' ', e.last_name)) AS salesperson_name
     FROM sale s
     INNER JOIN vehicle v ON s.vehicle_id = v.vehicle_id
@@ -59,8 +61,8 @@ $result = $conn->query("
         <tr>
             <td><?= htmlspecialchars($row['sale_id']) ?></td>
             <td><?= htmlspecialchars($row['vehicle_label']) ?></td>
-            <td><?= htmlspecialchars($row['customer_name']) ?></td>
-            <td><?= htmlspecialchars($row['salesperson_name']) ?></td>
+            <td><?= htmlspecialchars($row['customer_id'] . ' - ' . $row['customer_name']) ?></td>
+            <td><?= htmlspecialchars($row['salesperson_id'] . ' - ' .$row['salesperson_name']) ?></td>
             <td><?= htmlspecialchars($row['sale_date']) ?></td>
             <td><?= htmlspecialchars($row['total_due']) ?></td>
             <td><?= htmlspecialchars($row['down_payment']) ?></td>
