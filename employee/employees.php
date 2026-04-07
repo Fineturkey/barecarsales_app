@@ -39,6 +39,7 @@ $result = $conn->query("
         <th>Last Name</th>
         <th>Phone</th>
         <th>Role</th>
+        <th>Actions</th>
     </tr>
 
     <?php while ($row = $result->fetch_assoc()): ?>
