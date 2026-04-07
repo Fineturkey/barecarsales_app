@@ -2,7 +2,8 @@
 include '../db.php';
 include '../header.php';
 
-$result = $conn->query("
+$showLateMoreThan2 = isset($_GET['show_late_more_than_2']) && $_GET['show_late_more_than_2'] === '1';
+$sql = "
     SELECT
         customer_id,
         first_name,
@@ -18,12 +19,24 @@ $result = $conn->query("
         late_payment_count,
         avg_days_late,
         reported_to_credit_bureau
-    FROM customer
-    ORDER BY customer_id ASC
-");
+    FROM customer";
+
+if ($showLateMoreThan2) {
+    $sql .= "\n    WHERE late_payment_count > 2";
+}
+
+$sql .= "\n    ORDER BY customer_id ASC";
+$result = $conn->query($sql);
 ?>
 
 <h2>Customer Table</h2>
+
+<form method="get" style="margin-bottom: 1rem;">
+    <label>
+        <input type="checkbox" name="show_late_more_than_2" value="1" <?= $showLateMoreThan2 ? 'checked' : '' ?> onchange="this.form.submit()">
+        Show only customers with more than 2 late payments
+    </label>
+</form>
 
 <a class="btn" href="customer_create.php">Add New Customer</a>
 <a class="btn" href="/barecarsales_app/employment_history/employment_historys.php">Manage Customer Employment History</a>
