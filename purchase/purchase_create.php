@@ -10,6 +10,32 @@ $location = '';
 $is_auction = 0;
 $price_paid = ''; 
 
+// fetch vehicles for dropdown
+$vehicles = [];
+$vehicles_res = $conn->query("
+    SELECT vehicle_id, make, model, year
+    FROM vehicle
+    ORDER BY make, model, year
+");
+if ($vehicles_res) {
+    while ($row = $vehicles_res->fetch_assoc()) {
+        $vehicles[] = $row;
+    }
+}
+
+// fetch employees for dropdown (buyers)
+$buyers = [];
+$buyers_res = $conn->query("
+    SELECT employee_id, first_name, last_name
+    FROM employee
+    ORDER BY last_name, first_name
+");
+if ($buyers_res) {
+    while ($row = $buyers_res->fetch_assoc()) {
+        $buyers[] = $row;
+    }
+}
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $vehicle_id = trim($_POST['vehicle_id'] ?? '');
     $buyer_employee_id = trim($_POST['buyer_employee_id'] ?? '');
@@ -20,12 +46,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $is_auction = isset($_POST['is_auction']) && (string) $_POST['is_auction'] === '1' ? 1 : 0;
     $price_paid = trim($_POST['price_paid'] ?? '');
 
-    if ($vehicle_id === '') {
-        $errors[] = "Vewhicle ID is required";
+    if ($vehicle_id === '' || !ctype_digit($vehicle_id)) {
+        $errors[] = "Vehicle is required.";
     }
 
-    if ($buyer_employee_id === '') {
-        $errors[] = "Buyer employee ID is required.";
+    if ($buyer_employee_id === '' || !ctype_digit($buyer_employee_id)) {
+        $errors[] = "Buyer employee is required.";
     }
 
     if ($seller_name === '') {
@@ -54,15 +80,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             ) VALUES (?, ?, ?, ?, ?, ?, ?)
         ");
 
+        $vehicle_id_int = (int)$vehicle_id;
+        $buyer_employee_id_int = (int)$buyer_employee_id;
+        $price_paid_float = (float)$price_paid;
+
         $stmt->bind_param(
             "iisssid",
-            $vehicle_id,
-            $buyer_employee_id,
+            $vehicle_id_int,
+            $buyer_employee_id_int,
             $seller_name,
             $purchase_date,
             $location,
             $is_auction,
-            $price_paid
+            $price_paid_float
         );
 
         if ($stmt->execute()) {
@@ -87,11 +117,33 @@ include '../header.php';
 
 <form method="post">
     
-    <label>Vehicle ID</label>
-    <input type="text" name="vehicle_id" value="<?= htmlspecialchars($vehicle_id) ?>" required>
+    <label>Vehicle</label>
+    <select name="vehicle_id" required>
+        <option value="">Select vehicle</option>
+        <?php foreach ($vehicles as $v): ?>
+            <?php
+            $vid = (string)$v['vehicle_id'];
+            $vlabel = trim($v['make'] . ' ' . $v['model'] . ' ' . $v['year']);
+            ?>
+            <option value="<?= htmlspecialchars($vid) ?>" <?= $vehicle_id === $vid ? 'selected' : '' ?>>
+                <?= htmlspecialchars($vlabel) ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
 
-    <label>Buyer employee ID</label>
-    <input type="text" name="buyer_employee_id" value="<?= htmlspecialchars($buyer_employee_id) ?>">
+    <label>Buyer employee</label>
+    <select name="buyer_employee_id" required>
+        <option value="">Select buyer</option>
+        <?php foreach ($buyers as $b): ?>
+            <?php
+            $bid = (string)$b['employee_id'];
+            $blabel = trim($b['first_name'] . ' ' . $b['last_name']);
+            ?>
+            <option value="<?= htmlspecialchars($bid) ?>" <?= $buyer_employee_id === $bid ? 'selected' : '' ?>>
+                <?= htmlspecialchars($blabel) ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
 
     <label>Sellers name</label>
     <input type="text" name="seller_name" value="<?= htmlspecialchars($seller_name) ?>">

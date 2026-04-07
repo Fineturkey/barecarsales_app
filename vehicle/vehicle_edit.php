@@ -21,6 +21,8 @@ $stmt = $conn->prepare("
     WHERE vehicle_id = ?
 ");
 
+$stmt or die("Prepare failed: " . htmlspecialchars($conn->error));
+
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -104,12 +106,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 book_price = ?,
                 style = ?,
                 interior_color = ?,
-                current_status = ?
+                current_status = ?,
             WHERE vehicle_id = ?
         ");
 
         $stmt->bind_param(
-            "sssisisdsssi",
+            "sssisisdsssis",
             $vin,
             $make,
             $model,

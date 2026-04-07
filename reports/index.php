@@ -27,6 +27,48 @@ ORDER BY avg_per_sale DESC
 LIMIT 1
 ";
 
+$sql_least = "
+SELECT make, model, style, AVG(per_sale.earnings) AS avg_per_sale, COUNT(*) AS sales_count
+FROM (
+    SELECT
+        v.make,
+        v.model,
+        v.style,
+        s.sale_id,
+        (
+            GREATEST(COALESCE(s.sale_price, 0), COALESCE(s.total_due, 0))
+            - p.price_paid
+            - COALESCE(SUM(r.actual_cost), 0)
+            - COALESCE(s.salesperson_commission, 0)
+        ) AS earnings
+    FROM sale s
+    INNER JOIN vehicle v ON s.vehicle_id = v.vehicle_id
+    INNER JOIN purchase p ON p.vehicle_id = s.vehicle_id
+    LEFT JOIN repair r ON r.purchase_id = p.purchase_id
+    GROUP BY s.sale_id, v.make, v.model, v.style, s.sale_price, s.total_due, p.price_paid, s.salesperson_commission
+) AS per_sale
+GROUP BY make, model, style
+ORDER BY avg_per_sale ASC
+LIMIT 1
+";
+
+$min_repair_cost = 1000;
+$sql_repairs_over_cost = "
+SELECT repair_id, purchase_id, problem_description, est_repair_cost, actual_cost
+FROM repair
+WHERE est_repair_cost > " . ((float) $min_repair_cost) . "
+";
+
+$sql_vehicles_no_warranty = "
+SELECT DISTINCT s.vehicle_id
+FROM sale s
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM warranty w
+    WHERE w.sale_id = s.sale_id
+)
+";
+
 $res_most = $conn->query($sql_most);
 $row_most = $res_most ? $res_most->fetch_assoc() : null;
 
@@ -40,6 +82,13 @@ LIMIT 1
 
 $res_top_salesperson = $conn->query($sql_top_salesperson);
 $row_top_salesperson = $res_top_salesperson ? $res_top_salesperson->fetch_assoc() : null;
+$res_least = $conn->query($sql_least);
+$row_least = $res_least ? $res_least->fetch_assoc() : null;
+
+$res_repairs_over_cost = $conn->query($sql_repairs_over_cost);
+
+$res_vehicles_no_warranty = $conn->query($sql_vehicles_no_warranty);
+$row_vehicles_no_warranty = $res_vehicles_no_warranty ? $res_vehicles_no_warranty->fetch_assoc() : null;
 ?>
 
 <h2>Reports</h2>
@@ -68,6 +117,48 @@ $row_top_salesperson = $res_top_salesperson ? $res_top_salesperson->fetch_assoc(
         <em>No sales data available.</em>
     <?php endif; ?>
 </p>
+
+<p>
+    <strong>Least profitable (model + style):</strong>
+    <?php if ($row_least): ?>
+        <?= htmlspecialchars($row_least['make'] . ' ' . $row_least['model'] . (!empty($row_least['style']) ? ' — ' . $row_least['style'] : '')) ?>
+        (avg $<?= htmlspecialchars(number_format((float) $row_least['avg_per_sale'], 2)) ?> per sale,
+        <?= (int) $row_least['sales_count'] ?> sale(s) in this group)
+    <?php else: ?>
+        <em>No data (need sales with matching purchases).</em>
+    <?php endif; ?>
+</p>
+
+<h3>Repairs with estimated cost above $<?= htmlspecialchars(number_format((float) $min_repair_cost, 2)) ?></h3>
+
+<?php if ($res_repairs_over_cost && $res_repairs_over_cost->num_rows > 0): ?>
+    <ul>
+        <?php while ($repair = $res_repairs_over_cost->fetch_assoc()): ?>
+            <li>
+                Repair #<?= htmlspecialchars($repair['repair_id']) ?>,
+                Purchase #<?= htmlspecialchars($repair['purchase_id']) ?> —
+                <?= htmlspecialchars($repair['problem_description']) ?>
+                (est $<?= htmlspecialchars(number_format((float) $repair['est_repair_cost'], 2)) ?>,
+                actual $<?= htmlspecialchars(number_format((float) $repair['actual_cost'], 2)) ?>)
+            </li>
+        <?php endwhile; ?>
+    </ul>
+<?php else: ?>
+    <p><em>No repairs found above that estimated cost.</em></p>
+<?php endif; ?>
+
+<h3>Vehicles sold without warranty</h3>
+
+<?php if ($row_vehicles_no_warranty): ?>
+    <ul>
+        <li>Vehicle #<?= htmlspecialchars($row_vehicles_no_warranty['vehicle_id']) ?></li>
+        <?php while ($vehicle = $res_vehicles_no_warranty->fetch_assoc()): ?>
+            <li>Vehicle #<?= htmlspecialchars($vehicle['vehicle_id']) ?></li>
+        <?php endwhile; ?>
+    </ul>
+<?php else: ?>
+    <p><em>No vehicles found without warranty.</em></p>
+<?php endif; ?>
 
 <?php
 include '../footer.php';
