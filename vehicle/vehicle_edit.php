@@ -16,10 +16,12 @@ $stmt = $conn->prepare("
         book_price,
         style,
         interior_color,
-        current_status,
+        current_status
     FROM vehicle
     WHERE vehicle_id = ?
 ");
+
+$stmt or die("Prepare failed: " . htmlspecialchars($conn->error));
 
 $stmt->bind_param("i", $id);
 $stmt->execute();
