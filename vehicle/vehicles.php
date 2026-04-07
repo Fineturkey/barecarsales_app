@@ -44,6 +44,7 @@ if ($result === false) {
 <h2>Vehicle Table</h2>
 
 <a class="btn" href="vehicle_create.php">Add New vehicle</a>
+<a class="btn" href="available_vehicles.php">View Available Vehicles</a>
 
 <form method="get" action="vehicles.php" style="margin: 1rem 0; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
     <label for="max_miles">Show vehicles under</label>
@@ -55,6 +56,13 @@ if ($result === false) {
     <?php if ($max_miles !== null): ?>
         <a class="btn" href="vehicles.php">Clear filter</a>
     <?php endif; ?>
+</form>
+
+<form method="get" action="manufacturer_vehicles.php" style="margin: 1rem 0; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+    <label for="manufacturer">Search Vehicles by Manufacturer</label>
+    <input type="text" id="manufacturer" name="manufacturer" pattern="[A-Za-z\s]+" title="Only letters and spaces allowed"
+        placeholder="e.g. Toyota" style="width: 10rem;" required>
+    <button type="submit" class="btn">Search</button>
 </form>
 
 <?php if ($max_miles !== null): ?>
