@@ -118,9 +118,25 @@ $res_vehicles_no_warranty = $conn->query($sql_vehicles_no_warranty);
 $row_vehicles_no_warranty = $res_vehicles_no_warranty ? $res_vehicles_no_warranty->fetch_assoc() : null;
 
 $res_outstanding_balances = $conn->query($sql_outstanding_balances);
+
+$sql_total_customers = "SELECT COUNT(*) AS total_customers FROM customer";
+
+$res_total_customers = $conn->query($sql_total_customers);
+$row_total_customers = $res_total_customers ? $res_total_customers->fetch_assoc() : null;
 ?>
 
 <h2>Reports</h2>
+
+<h3>Total Customers</h3>
+
+<p>
+    <strong>> Total Customers:</strong>
+    <?php if ($row_total_customers): ?>
+        <?= (int) $row_total_customers['total_customers'] ?> customers in the database
+    <?php else: ?>
+        <em>No customer data available.</em>
+    <?php endif; ?>
+</p>
 
 <h3>Best by model and style (average per sale)</h3>
 
