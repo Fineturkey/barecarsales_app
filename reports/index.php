@@ -132,7 +132,7 @@ $row_total_customers = $res_total_customers ? $res_total_customers->fetch_assoc(
 <p>
     <strong>> Total Customers:</strong>
     <?php if ($row_total_customers): ?>
-        <?= (int) $row_total_customers['total_customers'] ?> customers in the database
+        <?= (int) $row_total_customers['total_customers'] ?> customer(s) in the database
     <?php else: ?>
         <em>No customer data available.</em>
     <?php endif; ?>
