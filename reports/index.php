@@ -69,6 +69,33 @@ WHERE NOT EXISTS (
 )
 ";
 
+$sql_outstanding_balances = "
+SELECT
+    s.sale_id,
+    s.sale_date,
+    v.vehicle_id,
+    CONCAT(v.make, ' ', v.model, ' ', v.year) AS vehicle_label,
+    c.customer_id,
+    TRIM(CONCAT(c.first_name, ' ', c.last_name)) AS customer_name,
+    COALESCE(s.total_due, s.sale_price, 0) AS total_due,
+    COALESCE(pp.total_paid, 0) AS total_paid,
+    (COALESCE(s.total_due, s.sale_price, 0) - COALESCE(pp.total_paid, 0)) AS balance_due,
+    pp.last_payment_date
+FROM sale s
+INNER JOIN customer c ON s.customer_id = c.customer_id
+INNER JOIN vehicle v ON s.vehicle_id = v.vehicle_id
+LEFT JOIN (
+    SELECT
+        p.sale_id,
+        SUM(COALESCE(p.amount, 0)) AS total_paid,
+        MAX(COALESCE(p.paid_date, p.payment_date)) AS last_payment_date
+    FROM payment p
+    GROUP BY p.sale_id
+) pp ON pp.sale_id = s.sale_id
+WHERE (COALESCE(s.total_due, s.sale_price, 0) - COALESCE(pp.total_paid, 0)) > 0.01
+ORDER BY balance_due DESC, s.sale_id ASC
+";
+
 $res_most = $conn->query($sql_most);
 $row_most = $res_most ? $res_most->fetch_assoc() : null;
 
@@ -89,9 +116,27 @@ $res_repairs_over_cost = $conn->query($sql_repairs_over_cost);
 
 $res_vehicles_no_warranty = $conn->query($sql_vehicles_no_warranty);
 $row_vehicles_no_warranty = $res_vehicles_no_warranty ? $res_vehicles_no_warranty->fetch_assoc() : null;
+
+$res_outstanding_balances = $conn->query($sql_outstanding_balances);
+
+$sql_total_customers = "SELECT COUNT(*) AS total_customers FROM customer";
+
+$res_total_customers = $conn->query($sql_total_customers);
+$row_total_customers = $res_total_customers ? $res_total_customers->fetch_assoc() : null;
 ?>
 
 <h2>Reports</h2>
+
+<h3>Total Customers</h3>
+
+<p>
+    <strong>> Total Customers:</strong>
+    <?php if ($row_total_customers): ?>
+        <?= (int) $row_total_customers['total_customers'] ?> customer(s) in the database
+    <?php else: ?>
+        <em>No customer data available.</em>
+    <?php endif; ?>
+</p>
 
 <h3>Best by model and style (average per sale)</h3>
 
@@ -158,6 +203,39 @@ $row_vehicles_no_warranty = $res_vehicles_no_warranty ? $res_vehicles_no_warrant
     </ul>
 <?php else: ?>
     <p><em>No vehicles found without warranty.</em></p>
+<?php endif; ?>
+
+<h3>Customers with outstanding balances</h3>
+
+<?php if ($res_outstanding_balances && $res_outstanding_balances->num_rows > 0): ?>
+    <table>
+        <tr>
+            <th>Sale ID</th>
+            <th>Sale Date</th>
+            <th>Customer</th>
+            <th>Vehicle</th>
+            <th>Total Due</th>
+            <th>Total Paid</th>
+            <th>Balance Due</th>
+            <th>Last Payment</th>
+        </tr>
+        <?php while ($row = $res_outstanding_balances->fetch_assoc()): ?>
+            <tr>
+                <td><?= htmlspecialchars($row['sale_id']) ?></td>
+                <td><?= htmlspecialchars($row['sale_date'] ?? '') ?></td>
+                <td><?= htmlspecialchars($row['customer_id'] . ' - ' . $row['customer_name']) ?></td>
+                <td><?= htmlspecialchars($row['vehicle_label'] . ' (Vehicle #' . $row['vehicle_id'] . ')') ?></td>
+                <td>$<?= htmlspecialchars(number_format((float) $row['total_due'], 2)) ?></td>
+                <td>$<?= htmlspecialchars(number_format((float) $row['total_paid'], 2)) ?></td>
+                <td><strong>$<?= htmlspecialchars(number_format((float) $row['balance_due'], 2)) ?></strong></td>
+                <td><?= htmlspecialchars($row['last_payment_date'] ?? 'No payments') ?></td>
+            </tr>
+        <?php endwhile; ?>
+    </table>
+<?php elseif ($res_outstanding_balances): ?>
+    <p><em>No outstanding balances found. (All sales appear fully paid.)</em></p>
+<?php else: ?>
+    <p><em>Could not run outstanding balance report: <?= htmlspecialchars($conn->error) ?></em></p>
 <?php endif; ?>
 
 <?php

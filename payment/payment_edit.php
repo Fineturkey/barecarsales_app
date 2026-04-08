@@ -136,9 +136,9 @@ include '../header.php';
     <div class="message error"><?= htmlspecialchars($error) ?></div>
 <?php endforeach; ?>
 
-<form method="post">
+<form method="post" class="form-payment">
     <label>Customer</label>
-    <select name="customer_id" required>
+    <select id="customer_id" name="customer_id" required>
         <option value="">-- Select Customer --</option>
         <?php foreach ($customers as $cust): ?>
             <option value="<?= $cust['customer_id'] ?>" <?= $cust['customer_id'] == $customer_id ? 'selected' : '' ?>>
@@ -148,7 +148,7 @@ include '../header.php';
     </select>
 
     <label>Sale</label>
-    <select name="sale_id" required>
+    <select id="sale_id" name="sale_id" required>
         <option value="">-- Select Sale --</option>
         <?php foreach ($sales as $sale): ?>
             <option value="<?= $sale['sale_id'] ?>" <?= $sale['sale_id'] == $sale_id ? 'selected' : '' ?>>
@@ -157,8 +157,10 @@ include '../header.php';
         <?php endforeach; ?>
     </select>
 
-    <label>Amount</label>
-    <input type="number" step="0.01" name="amount" value="<?= htmlspecialchars($amount) ?>" required>
+    <div class="form-field-own-line">
+        <label for="amount">Amount</label>
+        <input id="amount" type="number" step="0.01" name="amount" value="<?= htmlspecialchars($amount) ?>" required>
+    </div>
 
     <label>Payment Date</label>
     <input type="date" id="payment_date" name="payment_date" value="<?= htmlspecialchars($payment_date) ?>" required>
@@ -169,8 +171,10 @@ include '../header.php';
     <label>Paid Date</label>
     <input type="date" id="paid_date" name="paid_date" value="<?= htmlspecialchars($paid_date) ?>">
 
-    <label>Bank Account</label>
-    <input type="text" name="bank_account" value="<?= htmlspecialchars($bank_account) ?>">
+    <div class="form-field-own-line">
+        <label for="bank_account">Bank Account</label>
+        <input id="bank_account" type="text" name="bank_account" value="<?= htmlspecialchars($bank_account) ?>">
+    </div>
 
     <label>
         Is Late: <span id="is_late_display"><?= $is_late ? 'Yes' : 'No' ?></span>

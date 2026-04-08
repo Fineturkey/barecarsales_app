@@ -44,7 +44,7 @@ $result = $conn->query("
         <th>Purchase Date</th>
         <th>Location</th>
         <th>Price paid</th>
-        <th>Is Auction?</th>
+        <th>Auction</th>
         <th>Actions</th>
     </tr>
 

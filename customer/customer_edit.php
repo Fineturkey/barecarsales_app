@@ -167,8 +167,10 @@ include '../header.php';
     <label>Date of Birth</label>
     <input type="date" name="date_of_birth" value="<?= htmlspecialchars($date_of_birth) ?>">
 
-    <label>Taxpayer ID</label>
-    <input type="text" name="taxpayer_id" value="<?= htmlspecialchars($taxpayer_id) ?>">
+    <div class="form-field-own-line">
+        <label for="taxpayer_id">Taxpayer ID</label>
+        <input id="taxpayer_id" type="text" name="taxpayer_id" value="<?= htmlspecialchars($taxpayer_id) ?>">
+    </div>
 
     <label>Late Payment Count</label>
     <input type="number" name="late_payment_count" value="<?= htmlspecialchars($late_payment_count) ?>">

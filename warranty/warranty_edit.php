@@ -201,8 +201,10 @@ include '../header.php';
     <label>Employee ID</label>
     <input type="number" name="employee_id" value="<?= htmlspecialchars($employee_id) ?>" required>
 
-    <label>Warranty Name</label>
-    <input type="text" name="warranty_name" value="<?= htmlspecialchars($warranty_name) ?>" required>
+    <div class="form-field-own-line">
+        <label for="warranty_name">Warranty Name</label>
+        <input id="warranty_name" type="text" name="warranty_name" value="<?= htmlspecialchars($warranty_name) ?>" required>
+    </div>
 
     <label>Warranty Sale Date</label>
     <input type="date" name="warranty_sale_date" value="<?= htmlspecialchars($warranty_sale_date) ?>" required>
@@ -210,8 +212,10 @@ include '../header.php';
     <label>Start Date</label>
     <input type="date" name="start_date" value="<?= htmlspecialchars($start_date) ?>" required>
 
-    <label>Length Months</label>
-    <input type="number" name="length_months" value="<?= htmlspecialchars($length_months) ?>" required>
+    <div class="form-field-own-line">
+        <label for="length_months">Length Months</label>
+        <input id="length_months" type="number" name="length_months" value="<?= htmlspecialchars($length_months) ?>" required>
+    </div>
 
     <label>Cost</label>
     <input type="number" step="0.01" name="cost" value="<?= htmlspecialchars($cost) ?>" required>
@@ -222,8 +226,10 @@ include '../header.php';
     <label>Items Covered</label>
     <textarea name="items_covered" rows="4"><?= htmlspecialchars($items_covered) ?></textarea>
 
-    <label>Total Cost</label>
-    <input type="number" step="0.01" name="total_cost" value="<?= htmlspecialchars($total_cost) ?>" required>
+    <div class="form-field-own-line">
+        <label for="total_cost">Total Cost</label>
+        <input id="total_cost" type="number" step="0.01" name="total_cost" value="<?= htmlspecialchars($total_cost) ?>" required>
+    </div>
 
     <label>Monthly Cost</label>
     <input type="number" step="0.01" name="monthly_cost" value="<?= htmlspecialchars($monthly_cost) ?>" required>

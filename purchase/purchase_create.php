@@ -28,6 +28,7 @@ $buyers = [];
 $buyers_res = $conn->query("
     SELECT employee_id, first_name, last_name
     FROM employee
+    WHERE role IN ('buyer', 'both')
     ORDER BY last_name, first_name
 ");
 if ($buyers_res) {
@@ -133,26 +134,26 @@ include '../header.php';
 
     <label>Buyer employee</label>
     <select name="buyer_employee_id" required>
-        <option value="">Select buyer</option>
+        <option value="">-- Select buyer --</option>
         <?php foreach ($buyers as $b): ?>
-            <?php
-            $bid = (string)$b['employee_id'];
-            $blabel = trim($b['first_name'] . ' ' . $b['last_name']);
-            ?>
-            <option value="<?= htmlspecialchars($bid) ?>" <?= $buyer_employee_id === $bid ? 'selected' : '' ?>>
-                <?= htmlspecialchars($blabel) ?>
+            <option value="<?= htmlspecialchars((string) $b['employee_id']) ?>" <?= $buyer_employee_id === (string) $b['employee_id'] ? 'selected' : '' ?>>
+                <?= htmlspecialchars($b['employee_id'] . ' - ' . $b['last_name'] . ', ' . $b['first_name']) ?>
             </option>
         <?php endforeach; ?>
     </select>
 
-    <label>Sellers name</label>
-    <input type="text" name="seller_name" value="<?= htmlspecialchars($seller_name) ?>">
+    <div class="form-field-own-line">
+        <label for="seller_name">Sellers name</label>
+        <input id="seller_name" type="text" name="seller_name" value="<?= htmlspecialchars($seller_name) ?>">
+    </div>
 
     <label>Purchase Date</label>
     <input type="date" name="purchase_date" value="<?= htmlspecialchars($purchase_date) ?>" required>
 
-    <label>Location</label>
-    <input type="text" name="location" value="<?= htmlspecialchars($location) ?>">
+    <div class="form-field-own-line">
+        <label for="location">Location</label>
+        <input id="location" type="text" name="location" value="<?= htmlspecialchars($location) ?>">
+    </div>
 
     <label>Price Paid</label>
     <input type="text" name="price_paid" value="<?= htmlspecialchars($price_paid) ?>">
@@ -164,7 +165,7 @@ include '../header.php';
             value="1"
             <?= $is_auction ? 'checked' : '' ?>
         >
-        Is for auction
+        Auction
     </label>
 
     <button type="submit">Save purchase</button>
