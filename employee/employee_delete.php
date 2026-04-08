@@ -20,7 +20,7 @@ if ($stmt->execute()) {
         exit;
     }
 } else {
-    header("Location: employee.php?msg=delete_blocked");
+    header("Location: employees.php?msg=delete_blocked");
     exit;
 }
 

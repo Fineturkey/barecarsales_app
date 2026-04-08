@@ -28,6 +28,22 @@ if (!$purchase) {
     exit;
 }
 
+$buyers = [];
+$buyers_cur = (int) $purchase['buyer_employee_id'];
+$buyers_stmt = $conn->prepare("
+    SELECT employee_id, first_name, last_name
+    FROM employee
+    WHERE role IN ('buyer', 'both') OR employee_id = ?
+    ORDER BY last_name, first_name
+");
+$buyers_stmt->bind_param("i", $buyers_cur);
+$buyers_stmt->execute();
+$buyers_res = $buyers_stmt->get_result();
+while ($row = $buyers_res->fetch_assoc()) {
+    $buyers[] = $row;
+}
+$buyers_stmt->close();
+
 $vehicle_id = $purchase['vehicle_id'];
 $buyer_employee_id = $purchase['buyer_employee_id'];
 $seller_name = $purchase['seller_name'];
@@ -115,8 +131,15 @@ include '../header.php';
 <label>Vehicle ID</label>
 <input type="number" name="vehicle_id" value="<?= htmlspecialchars($vehicle_id) ?>" required>
 
-<label>Buyer Employee ID</label>
-<input type="number" name="buyer_employee_id" value="<?= htmlspecialchars($buyer_employee_id) ?>" required>
+<label>Buyer employee</label>
+<select name="buyer_employee_id" required>
+    <option value="">-- Select buyer --</option>
+    <?php foreach ($buyers as $b): ?>
+        <option value="<?= htmlspecialchars((string) $b['employee_id']) ?>" <?= (string) $buyer_employee_id === (string) $b['employee_id'] ? 'selected' : '' ?>>
+            <?= htmlspecialchars($b['employee_id'] . ' - ' . $b['last_name'] . ', ' . $b['first_name']) ?>
+        </option>
+    <?php endforeach; ?>
+</select>
 
 <label>Seller Name</label>
 <input type="text" name="seller_name" value="<?= htmlspecialchars($seller_name) ?>" required>
