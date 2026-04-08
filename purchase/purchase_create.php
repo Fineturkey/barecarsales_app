@@ -142,14 +142,18 @@ include '../header.php';
         <?php endforeach; ?>
     </select>
 
-    <label>Sellers name</label>
-    <input type="text" name="seller_name" value="<?= htmlspecialchars($seller_name) ?>">
+    <div class="form-field-own-line">
+        <label for="seller_name">Sellers name</label>
+        <input id="seller_name" type="text" name="seller_name" value="<?= htmlspecialchars($seller_name) ?>">
+    </div>
 
     <label>Purchase Date</label>
     <input type="date" name="purchase_date" value="<?= htmlspecialchars($purchase_date) ?>" required>
 
-    <label>Location</label>
-    <input type="text" name="location" value="<?= htmlspecialchars($location) ?>">
+    <div class="form-field-own-line">
+        <label for="location">Location</label>
+        <input id="location" type="text" name="location" value="<?= htmlspecialchars($location) ?>">
+    </div>
 
     <label>Price Paid</label>
     <input type="text" name="price_paid" value="<?= htmlspecialchars($price_paid) ?>">

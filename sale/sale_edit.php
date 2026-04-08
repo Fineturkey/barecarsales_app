@@ -220,8 +220,10 @@ include '../header.php';
     <label>Sale Date</label>
     <input type="date" name="sale_date" value="<?= htmlspecialchars($sale_date) ?>" required>
 
-    <label>Total Due</label>
-    <input type="number" step="0.01" name="total_due" value="<?= htmlspecialchars($total_due) ?>" required>
+    <div class="form-field-own-line">
+        <label for="total_due">Total Due</label>
+        <input id="total_due" type="number" step="0.01" name="total_due" value="<?= htmlspecialchars($total_due) ?>" required>
+    </div>
 
     <label>Down Payment</label>
     <input type="number" step="0.01" name="down_payment" value="<?= htmlspecialchars($down_payment) ?>" required>
@@ -232,8 +234,10 @@ include '../header.php';
     <label>Sale Price</label>
     <input type="number" step="0.01" name="sale_price" value="<?= htmlspecialchars($sale_price) ?>" required>
 
-    <label>Salesperson Commission</label>
-    <input type="number" step="0.01" name="salesperson_commission" value="<?= htmlspecialchars($salesperson_commission) ?>" required>
+    <div class="form-field-own-line">
+        <label for="salesperson_commission">Salesperson Commission</label>
+        <input id="salesperson_commission" type="number" step="0.01" name="salesperson_commission" value="<?= htmlspecialchars($salesperson_commission) ?>" required>
+    </div>
 
     <button type="submit">Update Sale</button>
     <a class="btn btn-secondary" href="sales.php">Cancel</a>

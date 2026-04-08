@@ -104,8 +104,10 @@ include '../header.php';
         <?php endforeach; ?>
     </select>
 
-    <label>Problem Description</label>
-    <input type="text" name="problem_description" value="<?= htmlspecialchars($problem_description) ?>" required>
+    <div class="form-field-own-line">
+        <label for="problem_description">Problem Description</label>
+        <input id="problem_description" type="text" name="problem_description" value="<?= htmlspecialchars($problem_description) ?>" required>
+    </div>
 
     <label>Estimated Repair Cost</label>
     <input type="number" step="0.01" name="est_repair_cost" value="<?= htmlspecialchars($est_repair_cost) ?>" required>

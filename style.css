@@ -169,3 +169,21 @@ button,
     border-radius: 10px;
     margin-top: 20px;
 }
+
+.form-field-own-line,
+form.form-payment .payment-field-own-line {
+    display: block;
+    width: 100%;
+    clear: both;
+    margin-top: 0.75rem;
+}
+
+.form-field-own-line:first-of-type,
+form.form-payment .payment-field-own-line:first-of-type {
+    margin-top: 1rem;
+}
+
+.form-field-own-line label,
+form.form-payment .payment-field-own-line label {
+    display: block;
+}
