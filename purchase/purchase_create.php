@@ -161,7 +161,7 @@ include '../header.php';
             value="1"
             <?= $is_auction ? 'checked' : '' ?>
         >
-        Is for auction
+        Auction
     </label>
 
     <button type="submit">Save purchase</button>
