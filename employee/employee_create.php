@@ -69,8 +69,6 @@ include '../header.php';
         <option value="buyer" <?= $role === 'buyer' ? 'selected' : '' ?>>Buyer</option>
         <option value="salesperson" <?= $role === 'salesperson' ? 'selected' : '' ?>>Salesperson</option>
         <option value="both" <?= $role === 'both' ? 'selected' : '' ?>>Both</option>
-        <option value="both" <?= $role === 'Manager' ? 'selected' : '' ?>>Manager</option>
-        <option value="both" <?= $role === 'Top G' ? 'selected' : '' ?>>Top G</option>
     </select>
 
     <button type="submit">Save Employee</button>

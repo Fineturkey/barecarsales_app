@@ -63,8 +63,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $errors[] = "Purchase date is required.";
     }
 
-    if ($price_paid === '') {
-        $errors[] = "Total price must be listed";
+    if ($price_paid === '' || !is_numeric($price_paid)) {
+        $errors[] = "Total price must be a valid number.";
     }
 
 
@@ -110,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 include '../header.php';
 ?>
 
-<h2>Add purchase</h2>
+<h2>Add Purchase</h2>
 
 <?php foreach ($errors as $error): ?>
     <div class="message error"><?= htmlspecialchars($error) ?></div>
@@ -156,7 +156,7 @@ include '../header.php';
     </div>
 
     <label>Price Paid</label>
-    <input type="text" name="price_paid" value="<?= htmlspecialchars($price_paid) ?>">
+    <input type="number" step="0.01" min="0" name="price_paid" value="<?= htmlspecialchars($price_paid) ?>">
 
     <label>
         <input

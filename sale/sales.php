@@ -24,7 +24,7 @@ $result = $conn->query("
 ");
 ?>
 
-<h2>Sale Table</h2>
+<h2>Sales</h2>
 
 <a class="btn" href="sale_create.php">Create New Sale</a>
 
@@ -56,6 +56,10 @@ $result = $conn->query("
         <th>Salesperson Commission</th>
         <th>Actions</th>
     </tr>
+
+    <?php if ($result->num_rows === 0): ?>
+        <tr><td colspan="11"><em>No sales found.</em></td></tr>
+    <?php endif; ?>
 
     <?php while ($row = $result->fetch_assoc()): ?>
         <tr>

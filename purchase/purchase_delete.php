@@ -20,7 +20,7 @@ if ($stmt->execute()) {
         exit;
     }
 } else {
-    header("Location: purchase.php?msg=delete_blocked");
+    header("Location: purchases.php?msg=delete_blocked");
     exit;
 }
 

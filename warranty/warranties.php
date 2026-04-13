@@ -24,7 +24,7 @@ $result = $conn->query("
 ");
 ?>
 
-<h2>Warranty Table</h2>
+<h2>Warranties</h2>
 
 <a class="btn" href="warranty_create.php">Add New Warranty</a>
 
@@ -61,6 +61,10 @@ $result = $conn->query("
         <th>Warranty Commission</th>
         <th>Actions</th>
     </tr>
+
+    <?php if ($result->num_rows === 0): ?>
+        <tr><td colspan="16"><em>No warranties found.</em></td></tr>
+    <?php endif; ?>
 
     <?php while ($row = $result->fetch_assoc()): ?>
         <tr>

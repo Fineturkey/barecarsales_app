@@ -1,0 +1,7 @@
+# Environment file — contains real database credentials, never commit this
+.env
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp

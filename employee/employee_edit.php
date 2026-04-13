@@ -85,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 include '../header.php';
 ?>
 
-<h2>Edit employee</h2>
+<h2>Edit Employee</h2>
 
 <?php foreach ($errors as $error): ?>
     <div class="message error"><?= htmlspecialchars($error) ?></div>
@@ -107,12 +107,10 @@ include '../header.php';
         <option value="buyer" <?= $role === 'buyer' ? 'selected' : '' ?>>Buyer</option>
         <option value="salesperson" <?= $role === 'salesperson' ? 'selected' : '' ?>>Salesperson</option>
         <option value="both" <?= $role === 'both' ? 'selected' : '' ?>>Both</option>
-        <option value="Manager" <?= $role === 'Manager' ? 'selected' : '' ?>>Manager</option>
-        <option value="Top G" <?= $role === 'Top G' ? 'selected' : '' ?>>Top G</option>
     </select>
 
 
-    <button type="submit">Update employee</button>
+    <button type="submit">Update Employee</button>
     <a class="btn btn-secondary" href="employees.php">Cancel</a>
 </form>
 

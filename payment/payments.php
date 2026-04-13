@@ -42,16 +42,20 @@ $result = $conn->query("
         <th>Actions</th>
     </tr>
 
+    <?php if ($result->num_rows === 0): ?>
+        <tr><td colspan="9"><em>No payments found.</em></td></tr>
+    <?php endif; ?>
+
     <?php while ($row = $result->fetch_assoc()): ?>
         <tr>
             <td><?= htmlspecialchars($row['customer_id'] . ' - ' . $row['last_name'] . ', ' . $row['first_name']) ?></td>
-            <td><?= $row['sale_id'] ?></td>
+            <td><?= htmlspecialchars((string) $row['sale_id']) ?></td>
             <td>$<?= number_format($row['sale_price'], 2) ?></td>
             <td>$<?= number_format($row['amount'], 2) ?></td>
             <td><?= htmlspecialchars($row['payment_date']) ?></td>
             <td><?= htmlspecialchars($row['due_date']) ?></td>
             <td><?= htmlspecialchars($row['paid_date'] ?? 'Pending') ?></td>
-            <td><?= $row['days_late'] ?> days</td>
+            <td><?= htmlspecialchars((string) $row['days_late']) ?> days</td>
             <td>
                 <a class="btn" href="payment_edit.php?id=<?= $row['payment_id'] ?>">Edit</a>
                 <a class="btn btn-danger" href="payment_delete.php?id=<?= $row['payment_id'] ?>" onclick="return confirm('Are you sure you want to delete this payment?');">Delete</a>

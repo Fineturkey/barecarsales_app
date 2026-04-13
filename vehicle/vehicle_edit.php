@@ -71,12 +71,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $errors[] = 'Model is required.';
     }
 
-    if ($year !== '' && !is_numeric($year)) {
-        $errors[] = 'Year must be a number.';
+    if ($year !== '' && (!ctype_digit($year) || (int)$year < 1800 || (int)$year > 2100)) {
+        $errors[] = 'Year must be a valid whole number between 1800 and 2100.';
     }
 
-    if ($miles !== '' && !is_numeric($miles)) {
-        $errors[] = 'Miles must be a number.';
+    if ($miles !== '' && !ctype_digit($miles)) {
+        $errors[] = 'Miles must be a whole number.';
     }
 
     if ($book_price !== '' && !is_numeric($book_price)) {
@@ -106,12 +106,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 book_price = ?,
                 style = ?,
                 interior_color = ?,
-                current_status = ?,
+                current_status = ?
             WHERE vehicle_id = ?
         ");
 
         $stmt->bind_param(
-            "sssisisdsssis",
+            "sssisisdsssi",
             $vin,
             $make,
             $model,
@@ -157,19 +157,19 @@ include '../header.php';
     <input type="text" name="model" value="<?= htmlspecialchars($model) ?>" required>
 
     <label>Year</label>
-    <input type="text" name="year" value="<?= htmlspecialchars($year) ?>">
+    <input type="number" name="year" value="<?= htmlspecialchars($year) ?>" min="1800" max="2100">
 
     <label>Color</label>
     <input type="text" name="color" value="<?= htmlspecialchars($color) ?>">
 
     <label>Miles</label>
-    <input type="text" name="miles" value="<?= htmlspecialchars($miles) ?>">
+    <input type="number" name="miles" value="<?= htmlspecialchars($miles) ?>" min="0">
 
     <label>Condition</label>
     <input type="text" name="vehicle_condition" value="<?= htmlspecialchars($vehicle_condition) ?>">
 
     <label>Book Price</label>
-    <input type="text" name="book_price" value="<?= htmlspecialchars($book_price) ?>">
+    <input type="number" step="0.01" name="book_price" value="<?= htmlspecialchars($book_price) ?>">
 
     <label>Style</label>
     <input type="text" name="style" value="<?= htmlspecialchars($style) ?>">
@@ -184,7 +184,6 @@ include '../header.php';
         <option value="repairing" <?= $current_status === 'repairing' ? 'selected' : '' ?>>Repairing</option>
     </select>
 
-    <br><br>
     <button type="submit">Update Vehicle</button>
     <a class="btn btn-secondary" href="vehicles.php">Cancel</a>
 </form>

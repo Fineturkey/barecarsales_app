@@ -169,7 +169,7 @@ include '../header.php';
     <select name="customer_id" required>
         <option value="">-- Select customer --</option>
         <?php foreach ($customers as $cust): ?>
-            <option value="<?= $cust['customer_id'] ?>" <?= $cust['customer_id'] == $customer_id ? 'selected' : '' ?>>
+            <option value="<?= htmlspecialchars((string) $cust['customer_id']) ?>" <?= (string) $cust['customer_id'] === $customer_id ? 'selected' : '' ?>>
                 <?= htmlspecialchars($cust['customer_id'] . ' - ' . $cust['last_name'] . ', ' . $cust['first_name']) ?>
             </option>
         <?php endforeach; ?>
@@ -179,7 +179,7 @@ include '../header.php';
     <select name="salesperson_id" required>
         <option value="">-- Select salesperson --</option>
         <?php foreach ($salespeople as $sp): ?>
-            <option value="<?= $sp['employee_id'] ?>" <?= $sp['employee_id'] == $salesperson_id ? 'selected' : '' ?>>
+            <option value="<?= htmlspecialchars((string) $sp['employee_id']) ?>" <?= (string) $sp['employee_id'] === $salesperson_id ? 'selected' : '' ?>>
                 <?= htmlspecialchars($sp['employee_id'] . ' - ' . $sp['last_name'] . ', ' . $sp['first_name']) ?>
             </option>
         <?php endforeach; ?>

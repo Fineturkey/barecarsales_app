@@ -1,0 +1,44 @@
+services:
+
+  # ── PHP + Apache web server ──────────────────────────────────────────────
+  web:
+    build: .
+    ports:
+      - "80:80"
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: ${DB_PASSWORD:-changeme}
+      DB_NAME: carsales_app
+    depends_on:
+      db:
+        condition: service_healthy
+    # Development volume: live-reloads any file changes without rebuilding.
+    # Remove this block for a fully self-contained production image.
+    volumes:
+      - .:/var/www/html/barecarsales_app
+
+  # ── MySQL 8 database ─────────────────────────────────────────────────────
+  db:
+    image: mysql:8.0
+    # Use the older auth plugin so PHP's mysqli driver connects without SSL
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-changeme}
+      MYSQL_DATABASE: carsales_app
+    ports:
+      - "3306:3306"   # optional: exposes MySQL to host for GUI clients
+    volumes:
+      # Seed the database automatically on first start
+      - ./properscript.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      # Persist data across container restarts
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+
+volumes:
+  db_data:

@@ -17,27 +17,27 @@ $result = $conn->query("
 ");
 ?>
 
-<h2>purchase Table</h2>
+<h2>Purchases</h2>
 
-<a class="btn" href="purchase_create.php">Add New purchase</a>
+<a class="btn" href="purchase_create.php">Add New Purchase</a>
 
 <?php if (isset($_GET['msg'])): ?>
     <?php if ($_GET['msg'] === 'created'): ?>
-        <div class="message success">purchase created successfully.</div>
+        <div class="message success">Purchase created successfully.</div>
     <?php elseif ($_GET['msg'] === 'updated'): ?>
-        <div class="message success">purchase updated successfully.</div>
+        <div class="message success">Purchase updated successfully.</div>
     <?php elseif ($_GET['msg'] === 'deleted'): ?>
-        <div class="message success">purchase deleted successfully.</div>
+        <div class="message success">Purchase deleted successfully.</div>
     <?php elseif ($_GET['msg'] === 'delete_blocked'): ?>
         <div class="message error">This purchase cannot be deleted because related records exist in another table.</div>
     <?php elseif ($_GET['msg'] === 'not_found'): ?>
-        <div class="message error">purchase not found.</div>
+        <div class="message error">Purchase not found.</div>
     <?php endif; ?>
 <?php endif; ?>
 
 <table>
     <tr>
-        <th>purchase ID</th>
+        <th>Purchase ID</th>
         <th>Vehicle ID</th>
         <th>Buyer Employee ID</th>
         <th>Seller Name</th>
@@ -47,6 +47,10 @@ $result = $conn->query("
         <th>Auction</th>
         <th>Actions</th>
     </tr>
+
+    <?php if ($result->num_rows === 0): ?>
+        <tr><td colspan="9"><em>No purchases found.</em></td></tr>
+    <?php endif; ?>
 
     <?php while ($row = $result->fetch_assoc()): ?>
         <tr>

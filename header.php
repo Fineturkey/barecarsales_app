@@ -25,73 +25,67 @@
                 <li class="dropdown">
                     <a href="#">Repairs</a>
                     <ul class="submenu">
-                        <li><a href="/barecarsales_app/repair/repairs.php">Manage Repairs</a></li>
+                        <li><a href="/barecarsales_app/repair/repairs.php">View All Repairs</a></li>
                         <li><a href="/barecarsales_app/repair/repair_create.php">Add Repair</a></li>
-                        <li><a href="/barecarsales_app/repair/repairs.php">Delete Repair</a></li>
                     </ul>
                 </li>
 
                 <li class="dropdown">
                     <a href="#">Customers</a>
                     <ul class="submenu">
-                        <li><a href="/barecarsales_app/customer/customers.php">Manage Customers</a></li>
+                        <li><a href="/barecarsales_app/customer/customers.php">View All Customers</a></li>
                         <li><a href="/barecarsales_app/customer/customer_create.php">Add Customer</a></li>
-                        <li><a href="/barecarsales_app/customer/customers.php">Delete Customer</a></li>
+                        <li><a href="/barecarsales_app/employment_history/employment_historys.php">Employment History</a></li>
                     </ul>
                 </li>
 
                 <li class="dropdown">
                     <a href="#">Employees</a>
                     <ul class="submenu">
-                        <li><a href="/barecarsales_app/employee/employees.php">Manage Employees</a></li>
+                        <li><a href="/barecarsales_app/employee/employees.php">View All Employees</a></li>
                         <li><a href="/barecarsales_app/employee/employee_create.php">Add Employee</a></li>
-                        <li><a href="/barecarsales_app/employee/employees.php">Delete Employee</a></li>
                     </ul>
                 </li>
 
                 <li class="dropdown">
                     <a href="#">Sales</a>
                     <ul class="submenu">
-                        <li><a href="/barecarsales_app/sale/sales.php">Manage Sales</a></li>
+                        <li><a href="/barecarsales_app/sale/sales.php">View All Sales</a></li>
                         <li><a href="/barecarsales_app/sale/sale_create.php">Add Sale</a></li>
-                        <li><a href="/barecarsales_app/sale/sales.php">Delete Sale</a></li>
                     </ul>
                 </li>
 
                 <li class="dropdown">
                     <a href="#">Payments</a>
                     <ul class="submenu">
-                        <li><a href="/barecarsales_app/payment/payments.php">Manage Payments</a></li>
+                        <li><a href="/barecarsales_app/payment/payments.php">View All Payments</a></li>
                         <li><a href="/barecarsales_app/payment/payment_create.php">Add Payment</a></li>
-                        <li><a href="/barecarsales_app/payment/payments.php">Delete Payment</a></li>
                     </ul>
                 </li>
 
                 <li class="dropdown">
-                    <a href="#">Warranty</a>
+                    <a href="#">Warranties</a>
                     <ul class="submenu">
-                        <li><a href="/barecarsales_app/warranty/warranties.php">Manage Warranties</a></li>
+                        <li><a href="/barecarsales_app/warranty/warranties.php">View All Warranties</a></li>
                         <li><a href="/barecarsales_app/warranty/warranty_create.php">Add Warranty</a></li>
-                        <li><a href="/barecarsales_app/warranty/warranties.php">Delete Warranty</a></li>
                     </ul>
                 </li>
 
                 <li class="dropdown">
                     <a href="#">Purchases</a>
                     <ul class="submenu">
-                        <li><a href="/barecarsales_app/purchase/purchases.php">Manage Purchases</a></li>
+                        <li><a href="/barecarsales_app/purchase/purchases.php">View All Purchases</a></li>
                         <li><a href="/barecarsales_app/purchase/purchase_create.php">Add Purchase</a></li>
-                        <li><a href="/barecarsales_app/purchase/purchases.php">Delete Purchase</a></li>
                     </ul>
                 </li>
+
                 <li class="dropdown">
-                    <a href="#">Vehicle</a>
+                    <a href="#">Vehicles</a>
                     <ul class="submenu">
-                        <li><a href="/barecarsales_app/vehicle/vehicles.php">Manage Vehicles</a></li>
+                        <li><a href="/barecarsales_app/vehicle/vehicles.php">View All Vehicles</a></li>
                         <li><a href="/barecarsales_app/vehicle/vehicle_create.php">Add Vehicle</a></li>
-                        <li><a href="/barecarsales_app/vehicle/vehicles.php">Delete Vehicle</a></li>
+                        <li><a href="/barecarsales_app/vehicle/available_vehicles.php">In Stock</a></li>
                     </ul>
                 </li>
             </ul>
         </nav>
-        <h

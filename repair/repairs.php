@@ -5,7 +5,7 @@ include '../header.php';
 $result = $conn->query("SELECT repair_id, purchase_id, problem_description, est_repair_cost, actual_cost FROM repair ORDER BY repair_id ASC");
 ?>
 
-<h2>Repair Table</h2>
+<h2>Repairs</h2>
 
 <a class="btn" href="repair_create.php">Add New Repair</a>
 
@@ -32,6 +32,10 @@ $result = $conn->query("SELECT repair_id, purchase_id, problem_description, est_
         <th>Actual Cost</th>
         <th>Actions</th>
     </tr>
+
+    <?php if ($result->num_rows === 0): ?>
+        <tr><td colspan="6"><em>No repairs found.</em></td></tr>
+    <?php endif; ?>
 
     <?php while ($row = $result->fetch_assoc()): ?>
         <tr>
