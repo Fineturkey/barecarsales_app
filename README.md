@@ -16,7 +16,7 @@ The easiest way to run the app. Docker handles PHP, Apache, and MySQL automatica
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/<your-username>/barecarsales_app.git
+git clone https://github.com/Fineturkey/barecarsales_app.git
 cd barecarsales_app
 
 # 2. Create your local environment file from the template
@@ -67,12 +67,12 @@ If you prefer to run the app locally without Docker:
 
 ## Environment Variables
 
-| Variable | Default | Description |
-|---|---|---|
-| `DB_HOST` | `localhost` | MySQL host (`db` inside Docker) |
-| `DB_USER` | `root` | MySQL username |
-| `DB_PASSWORD` | *(empty)* | MySQL password — set in `.env` |
-| `DB_NAME` | `carsales_app` | Database name |
+| Variable      | Default        | Description                     |
+| ------------- | -------------- | ------------------------------- |
+| `DB_HOST`     | `localhost`    | MySQL host (`db` inside Docker) |
+| `DB_USER`     | `root`         | MySQL username                  |
+| `DB_PASSWORD` | _(empty)_      | MySQL password — set in `.env`  |
+| `DB_NAME`     | `carsales_app` | Database name                   |
 
 These are read by `db.php` at runtime. For XAMPP, you can set them in your system environment or edit `db.php` directly.
 
